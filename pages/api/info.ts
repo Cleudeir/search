@@ -21,11 +21,8 @@ type DataTv = {
   episodes: episode[];
 };
 
-async function getMovie(
-  baseUrl: string,
-  item: DataMovie
-): Promise<DataMovie | null> {
-  const resp: any = await asyncCrawlerSingle(`${baseUrl}${item.url}`);
+async function pageIframe(baseUrl: string, item: DataMovie) {
+  const resp: any = await asyncCrawlerSingle(baseUrl + item.url);
   const { $ } = resp;
   const response = $("iframe");
   if (
@@ -41,6 +38,13 @@ async function getMovie(
     return result;
   }
   return null;
+}
+
+async function getMovie(
+  baseUrl: string,
+  item: DataMovie
+): Promise<DataMovie | null> {
+  return await pageIframe(baseUrl, item);
 }
 
 async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
@@ -70,8 +74,24 @@ async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
       }
     }
   }
-  const result: DataTv = { ...item, episodes };
-  return result;
+  console.log(episodes);
+  /*
+  const newUrls: episode[] = [];
+  async function getInfoIframe(_item: { url: string }) {
+    console.log(`${baseUrl}${_item.url}`, _item);
+ 
+    const _data = await pageIframe(`${baseUrl}${_item.url}`, _item);
+
+    if (episodes.length !== newUrls.length) {
+      await getInfoIframe(newUrls.length);
+    } else {
+      return newUrls;
+    }
+  }
+  await getInfoIframe(episodes[0]);
+  const result: DataTv = { ...item, newUrls };
+    */
+  return { ...item, episodes };
 }
 
 export default async function handler(

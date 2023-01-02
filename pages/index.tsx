@@ -68,7 +68,8 @@ export default function Home() {
       <h2 >
         {ep.title}    
       </h2>
-      <iframe name='Player' src={'https://sinalpublico.com'+ ep.url} frameBorder='0' height='400' width='640' allowFullScreen> </iframe>
+      { //<iframe name='Player' src={'https://sinalpublico.com'+ ep.url} frameBorder='0' height='400' width='640' allowFullScreen> </iframe>
+      }
       </div>
       ))
       }
