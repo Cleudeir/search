@@ -13,6 +13,7 @@ async function getInfo ({ item, type }): Promise<DataTv | DataMovie | null> {
 interface Props {
   item: DataTv
   type: string
+  key: string
 }
 
 function CardTv ({ item, type }: Props): JSX.Element {

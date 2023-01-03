@@ -22,9 +22,8 @@ async function getMovie (baseUrl: string): Promise<DataMovie[]> {
   const data: DataMovie[] = []
   for (let i = 0; i < response.length; i++) {
     const url: string = String(response[i])
-    if (url.includes('/')) {}
     console.log(url)
-    const [baseArray]: [string] = url.replace('/', '').split('-').join(' ').split('_')
+    const [baseArray]: string[] = url.replace('/', '').split('-').join(' ').split('_')
     const baseString = baseArray.split(' ')
     const title: string = baseString
       .slice(0, -2)
@@ -46,7 +45,7 @@ async function getTv (baseUrl: string): Promise<DataTv[]> {
   const data: DataTv[] = []
   for (let i = 0; i < response.length; i++) {
     const url: string = String(response[i])
-    const [title]: [string] = url
+    const [title]: string[] = url
       .replace('/browse-', '')
       .split('-')
       .join(' ')
