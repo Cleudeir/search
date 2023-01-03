@@ -37,17 +37,21 @@ async function pageIframe(baseUrl: string, item: DataMovie) {
     console.log(result);
     return result;
   }
+
   return null;
 }
 
 async function getMovie(
   baseUrl: string,
   item: DataMovie
-): Promise<DataMovie | null> {
-  return await pageIframe(baseUrl, item);
+): Promise<DataMovie | undefined> {
+  return pageIframe(baseUrl, item);
 }
 
-async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
+async function getTv(
+  baseUrl: string,
+  item: DataMovie
+): Promise<DataTv | undefined> {
   const resp: any = await asyncCrawlerSingle(`${baseUrl}${item.url}`);
   const { $ } = resp;
   const response = $("a");
@@ -55,11 +59,12 @@ async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
   let identify = false;
   for (let i = 0; i < response.length; i++) {
     const element = response[i];
-    //console.log(element.attribs.href)
+    // Console.log(element.attribs.href)
     if (element && element.attribs && element.attribs.href) {
       if (element.attribs.href === "#modal-login-form") {
         identify = false;
       }
+
       if (identify) {
         episodes.push({
           id: episodes.length,
@@ -69,14 +74,16 @@ async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
             "unknown",
         });
       }
+
       if (element.attribs.href.includes("videos-1-title.html")) {
         identify = true;
       }
     }
   }
+
   console.log(episodes);
   /*
-  const newUrls: episode[] = [];
+  Const newUrls: episode[] = [];
   async function getInfoIframe(_item: { url: string }) {
     console.log(`${baseUrl}${_item.url}`, _item);
  
@@ -96,17 +103,18 @@ async function getTv(baseUrl: string, item: DataMovie): Promise<DataTv | null> {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DataMovie | DataTv | null>
+  res: NextApiResponse<DataMovie | DataTv | undefined>,
 ) {
   const { item, type } = req.body;
   console.log({ item, type });
   const baseUrl = "https://redecanais.to";
   if (type === "movie") {
-    const movie: DataMovie | null = await getMovie(baseUrl, item);
+    const movie: DataMovie | undefined = await getMovie(baseUrl, item);
     return res.status(200).json(movie);
   }
+
   if (type === "tv") {
-    const tv: DataTv | null = await getTv(baseUrl, item);
+    const tv: DataTv | undefined = await getTv(baseUrl, item);
     return res.status(200).json(tv);
   }
 }

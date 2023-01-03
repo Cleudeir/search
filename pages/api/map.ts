@@ -37,6 +37,7 @@ async function getMovie(baseUrl: string) {
     const [year, quality]: string[] = baseString.slice(-2);
     data.push({ id: i, url, title, quality, year, dub });
   }
+
   console.log("mapFilmes: ", data.length);
   return data;
 }
@@ -55,6 +56,7 @@ async function getTv(baseUrl: string) {
       .split(" videos");
     data.push({ id: i, url, title });
   }
+
   console.log("mapSeries: ", data.length);
   return data;
 }

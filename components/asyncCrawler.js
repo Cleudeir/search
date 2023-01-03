@@ -2,13 +2,14 @@ import Crawler from "crawler";
 
 const asyncCrawlerSingle = async function (url) {
   try {
-    let promise = await new Promise(function (resolve, reject) {
+    const promise = await new Promise(function (resolve, reject) {
       const c = new Crawler({
         retries: 0,
         callback(error, res, done) {
           if (error) {
             reject();
           }
+
           resolve(res);
           done();
         },
@@ -20,4 +21,5 @@ const asyncCrawlerSingle = async function (url) {
     console.log("asyncCrawlerSingle ", error);
   }
 };
+
 module.exports = asyncCrawlerSingle;
