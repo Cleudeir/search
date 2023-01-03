@@ -68,7 +68,7 @@ export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ): Promise<void> {
-  const baseUrl = 'https://redecanais.to'
+  const baseUrl = 'https://redecanais.la'
   const movie = await getMovie(baseUrl)
   const tv = await getTv(baseUrl)
 

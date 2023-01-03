@@ -47,7 +47,7 @@ export default async function infoMovie (
 ): Promise<void> {
   const { item, type } = req.body
   console.log({ item, type })
-  const baseUrl = 'https://redecanais.to'
+  const baseUrl = 'https://redecanais.la'
   const movie = await getMovie(baseUrl, item)
   const movieIMDB = await getIMDB(movie)
   res.status(200).json(movieIMDB)
