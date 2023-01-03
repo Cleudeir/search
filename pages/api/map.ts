@@ -16,17 +16,15 @@ interface DataTv {
 }
 
 async function getMovie (baseUrl: string): Promise<DataMovie[]> {
-  const resp: any = await asyncCrawlerSingle(`${baseUrl}/mapafilmes.html`)
-  const { $ } = resp
-  const response = $('a:contains("Assistir")')
+  const get: any = await asyncCrawlerSingle(`${baseUrl}/mapafilmes.html`)
+  const query = get.querySelectorAll('a')
+  const response: string[] = Array.from(query)
   const data: DataMovie[] = []
   for (let i = 0; i < response.length; i++) {
-    const url = response[i].attribs.href
-    const [baseArray]: [string] = url
-      .replace('/', '')
-      .split('-')
-      .join(' ')
-      .split('_')
+    const url: string = String(response[i])
+    if (url.includes('/')) {}
+    console.log(url)
+    const [baseArray]: [string] = url.replace('/', '').split('-').join(' ').split('_')
     const baseString = baseArray.split(' ')
     const title: string = baseString
       .slice(0, -2)
@@ -42,12 +40,12 @@ async function getMovie (baseUrl: string): Promise<DataMovie[]> {
 }
 
 async function getTv (baseUrl: string): Promise<DataTv[]> {
-  const resp: any = await asyncCrawlerSingle(`${baseUrl}/mapa.html`)
-  const { $ } = resp
-  const response = $('a:contains("Acessar")')
+  const get: any = await asyncCrawlerSingle(`${baseUrl}/mapa.html`)
+  const query = get.querySelectorAll('a')
+  const response: string[] = Array.from(query)
   const data: DataTv[] = []
   for (let i = 0; i < response.length; i++) {
-    const url = response[i].attribs.href
+    const url: string = String(response[i])
     const [title]: [string] = url
       .replace('/browse-', '')
       .split('-')

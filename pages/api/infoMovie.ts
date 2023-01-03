@@ -2,18 +2,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import asyncCrawlerSingle from '../../components/asyncCrawler'
 import { DataMovie } from '../../components/interfaces'
 
-async function getMovie (baseUrl: string, item: DataMovie): Promise<DataMovie | null> {
-  const resp: any = await asyncCrawlerSingle(baseUrl + item.url)
-  const { $ } = resp
-  const response = $('iframe')
-  if (response[0]?.attribs?.src) {
-    const [one, two] = response[0].attribs.src.split('.php')
-    const url: string = `${one}hlb.php${two}`
-    const result: DataMovie = { ...item, url }
-    console.log(result)
-    return result
-  }
-  return null
+async function getMovie (baseUrl: string, item: DataMovie): Promise<DataMovie > {
+  const doc: any = await asyncCrawlerSingle(baseUrl + item.url)
+  const response = String(doc.querySelectorAll('iframe[name="Player"]')[0].attributes.src.textContent)
+  const [one, two] = response.split('.php')
+  const url: string = `${one}hlb.php${two}`
+  const result: DataMovie = { ...item, url }
+  console.log(result)
+  return result
 }
 
 async function getIMDB (item: DataMovie): Promise<DataMovie | null> {
