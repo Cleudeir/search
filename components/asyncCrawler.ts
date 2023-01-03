@@ -5,7 +5,7 @@ const getWebsiteContent = async (url: string): Promise<string> => {
   const content = await fetch(url)
   // Parsing to result as text
   const text = await content.text()
-  // console.log(text)
+  console.log(text)
   return text
 }
 
