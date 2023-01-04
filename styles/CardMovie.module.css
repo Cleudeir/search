@@ -3,19 +3,22 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  margin: 5px;
-  width: 100vw;
-  height: 100vh;
+  flex-wrap: wrap;
+  padding: 5px;
+  margin: 0px;
+  width: 33%;
+  height:  45vh;
   color: white;
-}
-.container img{
-  padding: 0;
-  margin: 0;
+  text-shadow: 5px 5px 5px #000000;
 }
 
-.overview{
+.infos{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
   background-color: rgba(0, 0, 0,0.2);
-  padding: 0;
-  margin: 0;
+  padding: 10px;
+  border-radius: 5px;
 }

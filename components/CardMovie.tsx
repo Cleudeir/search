@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { DataMovie } from './interfaces'
 import styles from '../styles/CardMovie.module.css'
-import Image from 'next/image'
 import { useEffect } from 'react'
 
 interface Props {
   item: DataMovie
   type: string
   key: string
+  setVideo?: (params: any) => any
 }
 
 async function getInfo ({ item, type }: Props): Promise<DataMovie | null> {
@@ -19,7 +19,7 @@ async function getInfo ({ item, type }: Props): Promise<DataMovie | null> {
   return await data.json()
 }
 
-function CardMovie ({ item, type }: Props): JSX.Element {
+function CardMovie ({ item, type, setVideo }: Props): JSX.Element {
   const [data, setData] = useState<DataMovie | null>(null)
 
   useEffect(() => {
@@ -34,10 +34,8 @@ function CardMovie ({ item, type }: Props): JSX.Element {
   //       <iframe name='Player' src={'https://sinalpublico.com' + data.url} height='400' width='640'> </iframe>
   return (
     data && (
-      <div className={styles.container}>
-        <div></div>
+      <div className={styles.container} onClick={() => { console.log(data.url); setVideo(data) }}>
         <div
-          className={styles.information}
           style={{
             backgroundImage: `url(${data.backdrop_path || data.poster_path})`,
             backgroundRepeat: 'no-repeat',
@@ -52,15 +50,14 @@ function CardMovie ({ item, type }: Props): JSX.Element {
             justifyContent: 'space-between'
           }}
         >
-          <div>
-            <div>title: {data.title}</div>
-            <div>dub: {data.dub}</div>
-            <div>id: {String(data.id)}</div>
-            <div>quality: {data.quality}</div>
-            <div>year: {data.year}</div>
-            <div className={styles.overview}>
-            <h5>{data.overview}</h5>
-          </div>
+          <div className={styles.infos}>
+            <div>
+              <h2>{data.title}</h2>
+              {data.dub ? 'Dublado' : 'Legendado'}, {data.quality}, {data.year}
+            </div>
+            <div>
+              <h5>{data.overview}</h5>
+            </div>
           </div>
         </div>
       </div>

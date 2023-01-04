@@ -2,42 +2,53 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
-import CardMovie from '../components/CardMovie'
 import { Data, DataTv } from '../components/interfaces'
-import { DataMovie } from './../components/interfaces'
-import CardTv from '../components/CardTv'
+import Movie from './movie'
+import Tv from './tv'
+import Header from './Header'
 
-async function getData (): Promise<Data> {
-  const data = await fetch('/api/map')
+async function getData (url): Promise<Data> {
+  const data = await fetch(url)
   return await data.json()
 }
 
 export default function Home (): JSX.Element {
   const [data, setData] = useState(null)
-  const [text, setText] = useState('')
-  const [searchMovie, setSearchMovie] = useState([])
-  const [searchTv, setSearchTv] = useState([])
+  const [search, setSearch] = useState([])
+  const [type, setType] = useState(true)
   useEffect(() => {
     void (async (): Promise<void> => {
-      const _data = await getData()
+      let _data = []
+      if (type) {
+        _data = await getData('/api/mapMovie')
+      } else {
+        _data = await getData('/api/mapTv')
+      }
       console.log(_data)
       setData(_data)
+      const number = Math.floor(Math.random() * _data.length)
+      console.log(number)
+      setSearch(_data.slice(number, number + 6))
     })()
-  }, [])
+  }, [type])
 
-  function filterDataMovie (): void {
-    const filter = data.movie.filter((
-      item: { title: string | string[] }) => item.title.includes(text)).slice(0, 5)
-    setSearchMovie(filter)
+  function filterData (text): void {
+    if (type) {
+      const filter = data
+        .filter((item: { title: string }) =>
+          (item.title.toLowerCase()).includes(text.toLowerCase())
+        )
+        .slice(0, 6)
+      setSearch(filter)
+    } else {
+      const filter = data
+        .filter((item: { title: string }) =>
+          (item.title.toLowerCase()).includes(text.toLowerCase())
+        )
+        .slice(0, 6)
+      setSearch(filter)
+    }
   }
-
-  function filterDataTV (): void {
-    setSearchTv(
-      data.tv.filter((
-        item: { title: string | string[] }) => item.title.includes(text)).slice(0, 5)
-    )
-  }
-
   return (
     data && (
       <>
@@ -48,28 +59,14 @@ export default function Home (): JSX.Element {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className={styles.main}>
-          <div>
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => { setText(e.target.value) }}
+          <Header
+            data={data}
+            filterData={filterData}
+            type={type}
+            setType={setType}
           />
-          <button onClick={filterDataMovie}>search</button>
-          </div>
-          <div className={styles.movies}>
-            <h2> {data.movie.length} movies available</h2>
-            {searchMovie.length > 0 &&
-              searchMovie.map((item: DataMovie) => (
-                <CardMovie type="movie" item={item} key={item.title} />
-              ))}
-          </div>
-          <div className={styles.movies}>
-            <h2>{data.tv.length} tv available</h2>
-            {searchTv.length > 0 &&
-              searchTv.map((item: DataTv) => (
-                <CardTv item={item} type="tv" key={item.url} />
-              ))}
-          </div>
+          {type && <Movie data={data} search={search} />}
+          {!type && <Tv data={data} search={search} />}
         </main>
       </>
     )

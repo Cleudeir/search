@@ -1,0 +1,33 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  margin: 5px;
+}
+.main input{
+  height: 39px;
+  padding: 5px;
+  text-align: center;
+  margin: 3px;
+  font-weight: bold;
+}
+.main button{
+  height: 40px;
+  width: 60px;
+  color: white;
+  text-shadow: 5px 5px 5px #000000;
+  background-color: #323131b1;
+  padding: 5px;
+  margin: 3px;
+  font-weight: bold;
+}
+
+.main input::placeholder{
+  font-weight: bold;
+  opacity: 0.5;
+  color: rgb(35, 38, 37);
+  text-align: center;
+}
