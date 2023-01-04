@@ -1,4 +1,4 @@
-.container{
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -7,18 +7,37 @@
   padding: 5px;
   margin: 0px;
   width: 33%;
-  height:  45vh;
+  height: calc(50vh - 23px);
   color: white;
-  text-shadow: 5px 5px 5px #000000;
+  text-shadow: 2px 2px 2px #000000;
 }
-
-.infos{
+.infos {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: space-between;
-  flex-wrap: wrap;
-  background-color: rgba(0, 0, 0,0.2);
+  flex-wrap: nowrap;
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 10px;
   border-radius: 5px;
+  width: 100%;
+  height: 100%;
+}
+.infos .titles {
+  margin-bottom: 20px;
+}
+.infos .overview {
+  margin-top: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media screen and (max-width: 500px) {
+  .container {
+    width: 98%;
+  }
+}
+@media screen and (min-width: 500px) and (max-width: 800px) {
+  .container {
+    width: 48%;
+  }
 }

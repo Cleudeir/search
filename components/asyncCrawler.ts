@@ -6,14 +6,10 @@ const getWebsiteContent = async (url: string): Promise<string> => {
   try {
     const read = await fs.readFile(`temp/${name}.html`)
     const text = String(read)
-    console.log('read')
     return text
   } catch (error) {
-    // Simple HTTP call
     const content = await fetch(url)
-    // Parsing to result as text
     const text = await content.text()
-    console.log({ name })
     await fs.writeFile(`temp/${name}.html`, text)
     return text
   }

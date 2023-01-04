@@ -1,52 +1,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import React, { useEffect, useState } from 'react'
-import { Data, DataTv } from '../components/interfaces'
-import Movie from './movie'
-import Tv from './tv'
-import Header from './Header'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import React, { useEffect, useState } from "react";
+import { Data, DataMovie, DataTv } from "../components/interfaces";
+import Movie from "./movie";
+import Tv from "./tv";
+import Header from "./Header";
 
-async function getData (url): Promise<Data> {
-  const data = await fetch(url)
-  return await data.json()
+async function getData(url: string): Promise<Data> {
+  const data = await fetch(url);
+  return await data.json();
 }
 
-export default function Home (): JSX.Element {
-  const [data, setData] = useState(null)
-  const [search, setSearch] = useState([])
-  const [type, setType] = useState(true)
+export default function Home(): JSX.Element {
+  const [data, setData] = useState(null);
+  const [search, setSearch] = useState([]);
+  const [type, setType] = useState(true);
   useEffect(() => {
     void (async (): Promise<void> => {
-      let _data = []
+      let _data: any = [];
       if (type) {
-        _data = await getData('/api/mapMovie')
+        _data = await getData("/api/mapMovie");
       } else {
-        _data = await getData('/api/mapTv')
+        _data = await getData("/api/mapTv");
       }
-      console.log(_data)
-      setData(_data)
-      const number = Math.floor(Math.random() * _data.length)
-      console.log(number)
-      setSearch(_data.slice(number, number + 6))
-    })()
-  }, [type])
+      console.log(_data);
+      setData(_data);
+      const number = Math.floor(Math.random() * _data.length);
+      console.log(number);
+      setSearch(_data.slice(number, number + 6));
+    })();
+  }, [type]);
 
-  function filterData (text): void {
+  function filterData(text: string): void {
+    const loop = (item: DataMovie): any =>
+      item.title.toLowerCase().includes(text.toLowerCase());
+
     if (type) {
-      const filter = data
-        .filter((item: { title: string }) =>
-          (item.title.toLowerCase()).includes(text.toLowerCase())
-        )
-        .slice(0, 6)
-      setSearch(filter)
+      const _filter: any = data.filter(loop);
+      setSearch(_filter.slice(0, 6));
     } else {
-      const filter = data
-        .filter((item: { title: string }) =>
-          (item.title.toLowerCase()).includes(text.toLowerCase())
-        )
-        .slice(0, 6)
-      setSearch(filter)
+      const _filter = data.filter(loop);
+      setSearch(_filter.slice(0, 6));
     }
   }
   return (
@@ -65,10 +60,10 @@ export default function Home (): JSX.Element {
             type={type}
             setType={setType}
           />
-          {type && <Movie data={data} search={search} />}
-          {!type && <Tv data={data} search={search} />}
+          {type && <Movie search={search} />}
+          {!type && <Tv search={search} />}
         </main>
       </>
     )
-  )
+  );
 }
