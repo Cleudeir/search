@@ -1,12 +1,22 @@
 import { JSDOM } from 'jsdom'
+import * as fs from 'fs/promises'
 
 const getWebsiteContent = async (url: string): Promise<string> => {
-  // Simple HTTP call
-  const content = await fetch(url)
-  // Parsing to result as text
-  const text = await content.text()
-  console.log(text)
-  return text
+  const name = url.split('/').join('').split('.').join('').replace('https:', '').replace('html', '')
+  try {
+    const read = await fs.readFile(`temp/${name}.html`)
+    const text = String(read)
+    console.log('read')
+    return text
+  } catch (error) {
+    // Simple HTTP call
+    const content = await fetch(url)
+    // Parsing to result as text
+    const text = await content.text()
+    console.log({ name })
+    await fs.writeFile(`temp/${name}.html`, text)
+    return text
+  }
 }
 
 const asyncCrawlerSingle = async function (url: string): Promise<any> {

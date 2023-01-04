@@ -56,7 +56,7 @@ function CardMovie ({ item, type, setVideo }: Props): JSX.Element {
               {data.dub ? 'Dublado' : 'Legendado'}, {data.quality}, {data.year}
             </div>
             <div>
-              <h5>{data.overview}</h5>
+              <h4>{data.overview}</h4>
             </div>
           </div>
         </div>
