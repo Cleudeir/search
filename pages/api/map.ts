@@ -16,14 +16,12 @@ interface DataTv {
 }
 
 async function getMovie (baseUrl: string): Promise<DataMovie[]> {
-  console.log(`${baseUrl}/mapafilmes.html`)
   const get: any = await asyncCrawlerSingle(`${baseUrl}/mapafilmes.html`)
   const query = get.querySelectorAll('a')
   const response: string[] = Array.from(query)
   const data: DataMovie[] = []
   for (let i = 0; i < response.length; i++) {
     const url: string = String(response[i])
-    console.log(url)
     const [baseArray]: string[] = url.replace('/', '').split('-').join(' ').split('_')
     const baseString = baseArray.split(' ')
     const title: string = baseString
@@ -40,7 +38,6 @@ async function getMovie (baseUrl: string): Promise<DataMovie[]> {
 }
 
 async function getTv (baseUrl: string): Promise<DataTv[]> {
-  console.log(`${baseUrl}/mapa.html`)
   const get: any = await asyncCrawlerSingle(`${baseUrl}/mapa.html`)
   const query = get.querySelectorAll('a')
   const response: string[] = Array.from(query)

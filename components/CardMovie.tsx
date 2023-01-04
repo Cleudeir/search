@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 interface Props {
   item: DataMovie
   type: string
+  key: string
 }
 
 async function getInfo ({ item, type }: Props): Promise<DataMovie | null> {
@@ -34,32 +35,32 @@ function CardMovie ({ item, type }: Props): JSX.Element {
   return (
     data && (
       <div className={styles.container}>
-        <div>
-          <Image
-            width={180}
-            height={300}
-            src={data.poster_path}
-            alt={data.title}
-          />
-        </div>
-        <div className={styles.information}>
-          <div className={styles.overview}><h5>{data.overview}</h5></div>
+        <div></div>
+        <div
+          className={styles.information}
+          style={{
+            backgroundImage: `url(${data.backdrop_path || data.poster_path})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '100%',
+            height: '100%',
+            padding: 10,
+            borderRadius: 5,
+            display: 'flex',
+            alignItems: 'strech',
+            justifyContent: 'space-between'
+          }}
+        >
           <div>
-            <div>
-            title: {data.title}
-            </div>
-            <div>
-            dub: {data.dub}
-            </div>
-            <div>
-            id: {String(data.id)}
-            </div>
-            <div>
-            quality: {data.quality}
-            </div>
-            <div>
-            year: {data.year}
-            </div>
+            <div>title: {data.title}</div>
+            <div>dub: {data.dub}</div>
+            <div>id: {String(data.id)}</div>
+            <div>quality: {data.quality}</div>
+            <div>year: {data.year}</div>
+            <div className={styles.overview}>
+            <h5>{data.overview}</h5>
+          </div>
           </div>
         </div>
       </div>

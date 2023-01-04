@@ -57,14 +57,14 @@ export default function Home (): JSX.Element {
           <button onClick={filterDataMovie}>search</button>
           </div>
           <div className={styles.movies}>
-            <h2>Movies</h2>
+            <h2> {data.movie.length} movies available</h2>
             {searchMovie.length > 0 &&
               searchMovie.map((item: DataMovie) => (
                 <CardMovie type="movie" item={item} key={item.title} />
               ))}
           </div>
           <div className={styles.movies}>
-            <h2>Tv</h2>
+            <h2>{data.tv.length} tv available</h2>
             {searchTv.length > 0 &&
               searchTv.map((item: DataTv) => (
                 <CardTv item={item} type="tv" key={item.url} />
