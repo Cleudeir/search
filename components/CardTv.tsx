@@ -37,40 +37,75 @@ function CardMovie({ item, type, setVideo }: Props): JSX.Element {
     setData(_data);
   }
   return (
-    data && (
-      <div
-        className={styles.container}
-        onClick={() => {
-          console.log(data.url);
-          setVideo(data);
-        }}
-      >
+    <>
+      {data && (
         <div
-          style={{
-            backgroundImage: `url(${data.backdrop_path || data.poster_path})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            width: "100%",
-            height: "100%",
-            padding: 0,
-            borderRadius: 5,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between"
+          className={styles.container}
+          onClick={() => {
+            console.log(data.url);
+            setVideo(data);
           }}
         >
-          <div className={styles.infos}>
-            <div className={styles.titles}>
-              <h2>{data.title}</h2>
-            </div>
-            <div className={styles.overview}>
-              <h4>{data.overview}</h4>
+          <div
+            style={{
+              backgroundImage: `url(${data.backdrop_path || data.poster_path})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "100%",
+              height: "100%",
+              padding: 0,
+              borderRadius: 5,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+          >
+            <div className={styles.infos}>
+              <div className={styles.titles}>
+                <h2>{data.title}</h2>
+              </div>
+              <div className={styles.overview}>
+                <h4>{data.overview}</h4>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )}
+      {!data && (
+        <div
+          className={styles.container}
+          onClick={() => {
+            alert("Series not found or loading...");
+          }}
+        >
+          <div
+            style={{
+              backgroundImage: `url('https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif')`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "100%",
+              height: "100%",
+              padding: 0,
+              borderRadius: 5,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+          >
+            <div className={styles.infos}>
+              <div className={styles.titles}>
+                <h2>{item.title}</h2>
+              </div>
+              <div className={styles.overview}>
+                <h4></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 export default CardMovie;

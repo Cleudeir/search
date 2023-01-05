@@ -8,6 +8,39 @@ import { useState } from "react";
 interface Props {
   search: DataMovie[] | null;
 }
+interface PropsVideo {
+  video: DataMovie;
+  setVideo: (params: any) => any;
+}
+
+function Video({ video, setVideo }: PropsVideo): JSX.Element {
+  return (
+    <div className={styles.iframe}>
+      <div className={styles.buttons}>
+        <button
+          type="button"
+          onClick={() => {
+            setVideo(null);
+          }}
+        >
+          Home
+        </button>
+        <div className={styles.legend}>
+          <h2>{video.title}</h2>
+          <h5>
+            {video.dub ? "Dublado" : "Legendado"}, {video.quality}, {video.year}
+          </h5>
+        </div>
+      </div>
+      <iframe
+        name="Player"
+        frameBorder={0}
+        src={"https://sinalpublico.com" + video.url}
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+}
 
 export default function Movie({ search }: Props): JSX.Element {
   const [video, setVideo] = useState<DataMovie | null>(null);
@@ -15,42 +48,9 @@ export default function Movie({ search }: Props): JSX.Element {
     <main className={styles.main}>
       {!video &&
         search?.map((item: DataMovie) => (
-          <CardMovie
-            setVideo={setVideo}
-            type="movie"
-            item={item}
-            key={item.title}
-          />
+          <CardMovie setVideo={setVideo} item={item} key={item.title} />
         ))}
-      {video && (
-        <div className={styles.iframe}>
-          <div className={styles.buttons}>
-            <div className={styles.legend}>
-              <h2>{video.title}</h2>
-              <h5>
-                {video.dub ? "Dublado" : "Legendado"}, {video.quality},{" "}
-                {video.year}
-              </h5>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setVideo(null);
-              }}
-            >
-              return
-            </button>
-          </div>
-          <iframe
-            name="Player"
-            frameBorder={0}
-            src={"https://sinalpublico.com" + video.url}
-            allowFullScreen
-          >
-            {" "}
-          </iframe>
-        </div>
-      )}
+      {video && <Video video={video} setVideo={setVideo} />}
     </main>
   );
 }

@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styles from "../styles/Header.module.css";
 import React, { useEffect, useRef, useState } from "react";
-import { DataMovie, DataTv } from "./../components/interfaces";
 
 async function getData(): Promise<Props> {
   const data = await fetch("/api/mapMovie");
   return await data.json();
 }
 interface Props {
-  data: DataMovie[] | DataTv[];
   filterData: (params: any) => any;
   type: boolean;
   setType: (params: any) => any;
 }
 export default function Header({
-  data,
   filterData,
   type,
   setType
@@ -47,7 +44,7 @@ export default function Header({
           style={
             !type
               ? { backgroundColor: "rgba(255, 255, 255,0.7)" }
-              : { backgroundColor: "rgba(255, 255, 255,0.3)" }
+              : { backgroundColor: "rgba(255, 0, 255,0.3)" }
           }
           onClick={() => {
             setType(true);
@@ -58,7 +55,7 @@ export default function Header({
         <button
           style={
             !type
-              ? { backgroundColor: "rgba(255, 255, 255,0.3)" }
+              ? { backgroundColor: "rgba(255, 0, 255,0.3)" }
               : { backgroundColor: "rgba(255, 255, 255,0.7)" }
           }
           onClick={() => {
