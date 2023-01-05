@@ -14,8 +14,7 @@ export default function Movie({ search }: Props): JSX.Element {
   return (
     <main className={styles.main}>
       {!video &&
-        search.length > 0 &&
-        search.map((item: DataMovie) => (
+        search?.map((item: DataMovie) => (
           <CardMovie
             setVideo={setVideo}
             type="movie"
