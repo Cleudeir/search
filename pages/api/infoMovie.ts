@@ -68,7 +68,7 @@ export default async function infoMovie(
     .replace("html", "");
   try {
     const read: any = await fs.readFile(`temp/${name}.json`);
-    const text: DataTv[] = await JSON.parse(read);
+    const text: any = await JSON.parse(read);
     res.status(200).json(text);
     return;
   } catch (error) {

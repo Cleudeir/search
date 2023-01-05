@@ -24,7 +24,7 @@ export default async function handler(
     .replace("html", "");
   try {
     const read: any = await fs.readFile(`temp/${name}.json`);
-    const text: DataTv[] = await JSON.parse(read);
+    const text: any = await JSON.parse(read);
     res.status(200).json(text);
     return;
   } catch (error) {
@@ -53,7 +53,7 @@ export default async function handler(
       data.push({ id: i, url, title, quality, year, dub });
     }
 
-    console.log("mapFilmes: ", data.length);
+    console.log("mapMovie: ", data.length);
     await fs.writeFile(`temp/${name}.json`, JSON.stringify(data));
     res.status(200).json(data);
   }
