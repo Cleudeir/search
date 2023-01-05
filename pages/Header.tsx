@@ -74,7 +74,7 @@ export default function Header({
           onChange={(e) => {
             setText(e.target.value);
           }}
-          placeholder={`Search... ${data.length} ${type ? "movies" : "tv"}`}
+          placeholder={`Search... ${type ? "movies" : "tv"}`}
         />
         <button
           onClick={() => {
