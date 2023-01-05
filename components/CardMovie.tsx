@@ -11,12 +11,17 @@ interface Props {
 }
 
 async function getInfo({ item, type }: Props): Promise<DataMovie | null> {
-  const data = await fetch("/api/infoMovie", {
-    method: "POST",
-    body: JSON.stringify({ item, type }),
-    headers: { "Content-type": "application/json; charset=UTF-8" }
-  });
-  return await data.json();
+  try {
+    const data = await fetch("/api/infoMovie", {
+      method: "POST",
+      body: JSON.stringify({ item, type }),
+      headers: { "Content-type": "application/json; charset=UTF-8" }
+    });
+    return await data.json();
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 function CardMovie({ item, type, setVideo }: Props): JSX.Element {

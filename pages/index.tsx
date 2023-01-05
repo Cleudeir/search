@@ -2,7 +2,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
-import { Data, DataMovie, DataTv } from "../components/interfaces";
+import { Data, DataMovie } from "../components/interfaces";
 import Movie from "./movie";
 import Tv from "./tv";
 import Header from "./Header";
@@ -15,7 +15,7 @@ async function getData(url: string): Promise<Data> {
 export default function Home(): JSX.Element {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState([]);
-  const [type, setType] = useState(true);
+  const [type, setType] = useState(false);
   useEffect(() => {
     void (async (): Promise<void> => {
       let _data: any = [];
@@ -26,10 +26,9 @@ export default function Home(): JSX.Element {
       }
       console.log(_data);
       setData(_data);
-      const number = Math.floor(Math.random() * _data.length);
-      console.log(number);
-      setSearch(_data.slice(number, number + 6));
+      setSearch(_data.slice(13, 19));
     })();
+    console.log(type);
   }, [type]);
 
   function filterData(text: string): void {
@@ -38,9 +37,11 @@ export default function Home(): JSX.Element {
 
     if (type) {
       const _filter: any = data.filter(loop);
+      console.log(_filter.slice(0, 6));
       setSearch(_filter.slice(0, 6));
     } else {
       const _filter = data.filter(loop);
+      console.log(_filter.slice(0, 6));
       setSearch(_filter.slice(0, 6));
     }
   }
@@ -60,8 +61,7 @@ export default function Home(): JSX.Element {
             type={type}
             setType={setType}
           />
-          {type && <Movie search={search} />}
-          {!type && <Tv search={search} />}
+          {type ? <Movie search={search} /> : <Tv search={search} />}
         </main>
       </>
     )

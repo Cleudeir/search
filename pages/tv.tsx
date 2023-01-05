@@ -12,7 +12,7 @@ export default function Tv({ search }: Props): JSX.Element {
     <main className={styles.main}>
       {search.length > 0 &&
         search.map((item: DataTv) => (
-          <CardTv item={item} type="tv" key={item.url} />
+          <CardTv item={item} type="tv" key={String(item.id)} />
         ))}
     </main>
   );

@@ -65,7 +65,7 @@ export default function Header({
             setType(false);
           }}
         >
-          Tv
+          Series
         </button>
         <input
           ref={inputRef}

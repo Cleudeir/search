@@ -22,13 +22,12 @@ export interface DataMovie {
 export interface episode {
   id: number;
   url: string;
-  title: string;
 }
 export interface DataTv {
   id: number;
   url: string;
   title: string;
-  episodes: episode[];
+  episodes?: episode[];
 }
 export interface Data {
   movie: DataMovie[];
