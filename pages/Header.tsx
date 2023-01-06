@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { DataMovie, DataTv } from "../components/interfaces";
 import styles from "../styles/Header.module.css";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -6,37 +7,25 @@ async function getData(): Promise<Props> {
   const data = await fetch("/api/mapMovie");
   return await data.json();
 }
+interface PropsData {
+  movie: DataMovie[];
+  tv: DataTv[];
+}
 interface Props {
+  data: PropsData;
   filterData: (params: any) => any;
   type: boolean;
   setType: (params: any) => any;
 }
+
 export default function Header({
+  data,
   filterData,
   type,
   setType
 }: Props): JSX.Element {
   const [text, setText] = useState("");
   const inputRef = useRef(null);
-  useEffect(() => {
-    if (inputRef?.current) {
-      inputRef.current.addEventListener(
-        "keypress",
-        function (event: { key: string }) {
-          // If the user presses the "Enter" key on the keyboard
-          if (event.key === "Enter") {
-            // Cancel the default action, if needed
-            filterData(inputRef.current.value);
-            console.log(inputRef.current.value);
-            setTimeout(() => {
-              setText("");
-            }, 100);
-          }
-        }
-      );
-    }
-  }, [inputRef]);
-
   return (
     <main className={styles.main}>
       <div>
@@ -75,7 +64,7 @@ export default function Header({
         />
         <button
           onClick={() => {
-            filterData(text);
+            filterData(data, text);
             setText("");
           }}
         >

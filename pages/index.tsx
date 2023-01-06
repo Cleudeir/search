@@ -2,53 +2,75 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
-import { Data, DataMovie } from "../components/interfaces";
+import { Data, DataMovie, DataTv } from "../components/interfaces";
 import Movie from "./movie";
 import Tv from "./tv";
 import Header from "./Header";
 import Image from "next/image";
 
-async function getData(url: string): Promise<Data> {
-  const data = await fetch(url);
-  return await data.json();
+async function getData(): Promise<Data> {
+  const getMovie = await fetch("/api/mapMovie");
+  const movie = await getMovie.json();
+  const getTv = await fetch("/api/mapTv");
+  const tv = await getTv.json();
+  return { movie, tv };
+}
+interface PropsData {
+  movie: DataMovie[];
+  tv: DataTv[];
 }
 
 export default function Home(): JSX.Element {
-  const [data, setData] = useState(null);
-  const [search, setSearch] = useState(null);
-  const [type, setType] = useState(false);
+  const [data, setData] = useState<PropsData | null>(null);
+  const [search, setSearch] = useState([]);
+  const [type, setType] = useState(null);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setSearch(null);
     void (async (): Promise<void> => {
       let _data: any = [];
-      if (type) {
-        _data = await getData("/api/mapMovie");
-      } else {
-        _data = await getData("/api/mapTv");
-      }
-      console.log(_data);
+      _data = await getData();
       setData(_data);
-      setSearch(_data.slice(20, 26));
     })();
-    console.log(type);
+    setType(true);
+  }, []);
+
+  useEffect(() => {
+    setSearch(null);
+    setTimeout(() => {
+      if (data) {
+        const num: number = Math.floor(Math.random() * data.tv.length) - 6;
+        console.log(num);
+        if (type) {
+          setSearch(data.movie.slice(num, num + 6));
+        } else {
+          setSearch(data.tv.slice(num, num + 6));
+        }
+      }
+    }, 100);
   }, [type]);
 
-  function filterData(text: string): void {
-    function loop(item: DataMovie): any {
+  function filterData(_data: PropsData, text: string): void {
+    setSearch(null);
+    if (!_data) {
+      return;
+    }
+    function loop(item: any): any {
       return item.title.toLowerCase().includes(text.toLowerCase());
     }
     if (type) {
-      const _filter: any = data?.filter(loop);
-      if (_filter?.length > 0) {
-        console.log(_filter.slice(0, 6));
+      const _filter: any = _data.movie.filter(loop);
+      if (_filter?.length > 6) {
         setSearch(_filter.slice(0, 6));
+      } else if (_filter.length > 0) {
+        setSearch(_filter);
       }
     } else {
-      const _filter = data?.filter(loop);
-      if (_filter?.length > 0) {
-        console.log(_filter.slice(0, 6));
+      const _filter = _data.tv.filter(loop);
+      if (_filter.length > 6) {
         setSearch(_filter.slice(0, 6));
+      } else if (_filter.length > 0) {
+        setSearch(_filter);
       }
     }
   }
@@ -58,7 +80,6 @@ export default function Home(): JSX.Element {
     } else {
       setLoading(false);
     }
-    console.log(isLoading);
   }, [data]);
   return (
     <>
@@ -69,7 +90,12 @@ export default function Home(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header filterData={filterData} type={type} setType={setType} />
+        <Header
+          filterData={filterData}
+          data={data}
+          type={type}
+          setType={setType}
+        />
         {!isLoading &&
           (type ? <Movie search={search} /> : <Tv search={search} />)}
         {isLoading && (

@@ -80,15 +80,18 @@ export default function Tv({ search }: Props): JSX.Element {
   const [video, setVideo] = useState<DataTv | null>(null);
   return (
     <main className={styles.main}>
-      {!video &&
-        search?.map((item: DataTv) => (
-          <CardTv
-            item={item}
-            setVideo={setVideo}
-            type="tv"
-            key={String(item.id)}
-          />
-        ))}
+      {!video && (
+        <div className={styles.cards}>
+          {search?.map((item: DataTv) => (
+            <CardTv
+              item={item}
+              setVideo={setVideo}
+              type="tv"
+              key={String(item.id)}
+            />
+          ))}
+        </div>
+      )}
       {video && <Video video={video} setVideo={setVideo} />}
     </main>
   );

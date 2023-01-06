@@ -46,10 +46,14 @@ export default function Movie({ search }: Props): JSX.Element {
   const [video, setVideo] = useState<DataMovie | null>(null);
   return (
     <main className={styles.main}>
-      {!video &&
-        search?.map((item: DataMovie) => (
-          <CardMovie setVideo={setVideo} item={item} key={item.title} />
-        ))}
+      {!video && (
+        <div className={styles.cards}>
+          {search?.map((item: DataMovie) => (
+            <CardMovie setVideo={setVideo} item={item} key={item.title} />
+          ))}
+        </div>
+      )}
+
       {video && <Video video={video} setVideo={setVideo} />}
     </main>
   );

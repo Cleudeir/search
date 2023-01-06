@@ -6,7 +6,6 @@ export default async function infoMovie(
   res: NextApiResponse<DataMovie | undefined>
 ): Promise<void> {
   const { item } = req.body;
-  console.log({ item });
   try {
     const data = await fetch(process.env.BACK_URL + "/api/infoMovie", {
       method: "POST",
@@ -16,7 +15,6 @@ export default async function infoMovie(
     const result = await data.json();
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
     return null;
   }
 }

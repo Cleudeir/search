@@ -15,7 +15,6 @@ export default async function infoMovie(
     const result = await data.json();
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
