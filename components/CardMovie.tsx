@@ -18,7 +18,7 @@ async function getInfo({ item }: Props): Promise<DataMovie | null> {
     });
     return await data.json();
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     return null;
   }
 }
@@ -31,7 +31,6 @@ function CardMovie({ item, setVideo }: Props): JSX.Element {
   }, []);
   function start({ item }: Props): void {
     void getInfo({ item }).then((_data) => {
-      console.log("_data");
       setData(_data);
     });
   }
@@ -41,7 +40,6 @@ function CardMovie({ item, setVideo }: Props): JSX.Element {
         <div
           className={styles.container}
           onClick={() => {
-            console.log(data.url);
             setVideo(data);
           }}
         >

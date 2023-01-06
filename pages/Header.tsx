@@ -7,12 +7,9 @@ async function getData(): Promise<Props> {
   const data = await fetch("/api/mapMovie");
   return await data.json();
 }
-interface PropsData {
-  movie: DataMovie[];
-  tv: DataTv[];
-}
+
 interface Props {
-  data: PropsData;
+  data: DataMovie[] | DataTv[];
   filterData: (params1: any, params2: any) => any;
   type: boolean;
   setType: (params: any) => any;

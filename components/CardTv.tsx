@@ -18,10 +18,9 @@ async function getInfo({ item, type }: Props): Promise<DataTv | null> {
       headers: { "Content-type": "application/json; charset=UTF-8" }
     });
     const json = await data.json();
-    console.log(json);
     return json;
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     return null;
   }
 }
@@ -42,7 +41,6 @@ function CardMovie({ item, type, setVideo }: Props): JSX.Element {
         <div
           className={styles.container}
           onClick={() => {
-            console.log(data.url);
             setVideo(data);
           }}
         >

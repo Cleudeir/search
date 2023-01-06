@@ -8,70 +8,45 @@ import Tv from "./tv";
 import Header from "./Header";
 import Image from "next/image";
 
-async function getData(): Promise<Data> {
-  const getMovie = await fetch("/api/mapMovie");
-  const movie = await getMovie.json();
-  const getTv = await fetch("/api/mapTv");
-  const tv = await getTv.json();
-  return { movie, tv };
-}
-interface PropsData {
-  movie: DataMovie[];
-  tv: DataTv[];
+async function getData(url: string): Promise<Data> {
+  const get = await fetch(url);
+  const data = await get.json();
+  return data;
 }
 
 export default function Home(): JSX.Element {
-  const [data, setData] = useState<PropsData | null>(null);
+  const [data, setData] = useState<DataMovie[] | DataTv[] | null>(null);
   const [search, setSearch] = useState([]);
-  const [type, setType] = useState(null);
+  const [type, setType] = useState(true);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
+    setData(null);
     setSearch(null);
     void (async (): Promise<void> => {
-      let _data: any = [];
-      _data = await getData();
-      setData(_data);
-    })();
-    setType(true);
-  }, []);
-
-  useEffect(() => {
-    setSearch(null);
-    setTimeout(() => {
-      if (data) {
-        const num: number = Math.floor(Math.random() * data.tv.length) - 6;
-        console.log(num);
-        if (type) {
-          setSearch(data.movie.slice(num, num + 6));
-        } else {
-          setSearch(data.tv.slice(num, num + 6));
-        }
+      let _data: any;
+      if (type) {
+        _data = await getData("/api/mapMovie");
+      } else {
+        _data = await getData("/api/mapTv");
       }
-    }, 100);
+      console.log(_data);
+      setData(_data);
+      setSearch(_data?.slice(0, 6));
+    })();
   }, [type]);
 
-  function filterData(_data: PropsData, text: string): void {
-    setSearch(null);
+  function filterData(_data: DataMovie[] | DataTv[], text: string): void {
     if (!_data) {
       return;
     }
     function loop(item: any): any {
       return item.title.toLowerCase().includes(text.toLowerCase());
     }
-    if (type) {
-      const _filter: any = _data.movie.filter(loop);
-      if (_filter?.length > 6) {
-        setSearch(_filter.slice(0, 6));
-      } else if (_filter.length > 0) {
-        setSearch(_filter);
-      }
-    } else {
-      const _filter = _data.tv.filter(loop);
-      if (_filter.length > 6) {
-        setSearch(_filter.slice(0, 6));
-      } else if (_filter.length > 0) {
-        setSearch(_filter);
-      }
+    const _filter: any[] = _data.filter(loop);
+    if (_filter?.length > 6) {
+      setSearch(_filter.slice(0, 6));
+    } else if (_filter.length > 0) {
+      setSearch(_filter);
     }
   }
   useEffect(() => {

@@ -7,6 +7,9 @@
   width: 100%;
   margin-bottom: 0px;
   background-color: #323131b1;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .main input {
   height: 31px;
