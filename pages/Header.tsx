@@ -13,7 +13,7 @@ interface PropsData {
 }
 interface Props {
   data: PropsData;
-  filterData: (params: any) => any;
+  filterData: (params1: any, params2: any) => any;
   type: boolean;
   setType: (params: any) => any;
 }

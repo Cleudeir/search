@@ -17,9 +17,9 @@ function Video({ video, setVideo }: PropsVideo): JSX.Element {
   const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {
-    const storag = +localStorage.getItem(video.title);
-    if (storag) {
-      setIndex(storag);
+    const storage = +localStorage.getItem(video.title);
+    if (storage) {
+      setIndex(storage);
     }
   }, []);
   function changeIndex(e: number): void {
