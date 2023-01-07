@@ -12,6 +12,7 @@ export default async function infoMovie(
       body: JSON.stringify({ item }),
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
     })
+
     const result = await data.json()
     res.status(200).json(result)
     return
