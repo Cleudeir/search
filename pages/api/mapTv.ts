@@ -1,15 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { DataTv } from "./../../components/interfaces";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { DataTv } from './../../components/interfaces'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DataTv[]>
+  res: NextApiResponse<DataTv[] | null>
 ): Promise<void> {
   try {
-    const data = await fetch(process.env.BACK_URL + "/api/mapTv");
-    const result = await data.json();
-    res.status(200).json(result);
+    const data = await fetch(process.env.BACK_URL + '/api/mapTv')
+    const result = await data.json()
+    res.status(200).json(result)
   } catch (error) {
-    return null;
+    res.status(500).json(null)
+    return
   }
 }

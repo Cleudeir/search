@@ -1,61 +1,62 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import React, { useEffect, useState } from "react";
-import { Data, DataMovie, DataTv } from "../components/interfaces";
-import Movie from "./movie";
-import Tv from "./tv";
-import Header from "./Header";
-import Image from "next/image";
+import Head from 'next/head'
+import styles from '../styles/Home.module.css'
+import React, { useEffect, useState } from 'react'
+import { DataMovie, DataTv } from '../components/interfaces'
+import Movie from './movie'
+import Tv from './tv'
+import Header from './Header'
+import Image from 'next/image'
 
-async function getData(url: string): Promise<Data> {
-  const get = await fetch(url);
-  const data = await get.json();
-  return data;
+
+async function getData(url: string): Promise<any> {
+  const get = await fetch(url)
+  const data: any = (await get.json()) || null
+  return data
 }
 
+interface PropsStateData {
+  data: any
+  setData: any
+}
 export default function Home(): JSX.Element {
-  const [data, setData] = useState<DataMovie[] | DataTv[] | null>(null);
-  const [search, setSearch] = useState([]);
-  const [type, setType] = useState(true);
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    setData(null);
-    setSearch(null);
-    void (async (): Promise<void> => {
-      let _data: any;
-      if (type) {
-        _data = await getData("/api/mapMovie");
-      } else {
-        _data = await getData("/api/mapTv");
-      }
-      console.log(_data);
-      setData(_data);
-      setSearch(_data?.slice(0, 6));
-    })();
-  }, [type]);
+  const [data, setData] = useState<PropsStateData | null>(null)
+  const [search, setSearch] = useState<PropsStateData | null>(null)
+  const [type, setType] = useState<boolean>(true)
+  const [isLoading, setLoading] = useState<boolean>(true)
 
-  function filterData(_data: DataMovie[] | DataTv[], text: string): void {
-    if (!_data) {
-      return;
-    }
-    function loop(item: any): any {
-      return item.title.toLowerCase().includes(text.toLowerCase());
-    }
-    const _filter: any[] = _data.filter(loop);
+  useEffect(() => {
+    setData(null)
+    setSearch(null)
+    void (async (): Promise<void> => {
+      if (type) {
+        const _data = await getData('/api/mapMovie')
+        setData(_data)
+        setSearch(_data.slice(0, 6))
+      } else {
+        const _data = await getData('/api/mapTv')
+        setData(_data)
+        setSearch(_data.slice(0, 6))
+      }
+    })()
+  }, [type])
+
+  function filterData(_data: any, text: string): void {
+    const _filter = _data?.filter((item: any): any =>
+      item.title.toLowerCase().includes(text.toLowerCase())
+    )
     if (_filter?.length > 6) {
-      setSearch(_filter.slice(0, 6));
+      setSearch(_filter.slice(0, 6))
     } else if (_filter.length > 0) {
-      setSearch(_filter);
+      setSearch(_filter)
     }
   }
   useEffect(() => {
     if (!data) {
-      setLoading(true);
+      setLoading(true)
     } else {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [data]);
+  }, [data])
   return (
     <>
       <Head>
@@ -65,34 +66,30 @@ export default function Home(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header
-          filterData={filterData}
-          data={data}
-          type={type}
-          setType={setType}
-        />
+        <Header filterData={filterData} type={type} setType={setType} />
         {!isLoading &&
+          search &&
           (type ? <Movie search={search} /> : <Tv search={search} />)}
         {isLoading && (
           <div
             style={{
-              width: "100%",
-              height: "90vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
+              width: '100%',
+              height: '90vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Image
-              style={{ padding: "auto" }}
+              style={{ padding: 'auto' }}
               width={100}
               height={100}
               src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
-              alt={"loading"}
+              alt={'loading'}
             />
           </div>
         )}
       </main>
     </>
-  );
+  )
 }

@@ -1,12 +1,4 @@
 {
-  "cSpell.words": [
-    "Acessar",
-    "Assistir",
-    "Dublado",
-    "IMDB",
-    "Legendado",
-    "mapa",
-    "mapafilmes",
-    "mflix"
-  ]
+  "editor.formatOnSave": true,
+  "cSpell.words": ["Dublado", "Legendado", "tmdb"]
 }

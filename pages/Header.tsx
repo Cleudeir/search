@@ -1,39 +1,31 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { DataMovie, DataTv } from "../components/interfaces";
-import styles from "../styles/Header.module.css";
-import React, { useEffect, useRef, useState } from "react";
-
-async function getData(): Promise<Props> {
-  const data = await fetch("/api/mapMovie");
-  return await data.json();
-}
+import { DataMovie, DataTv } from '../components/interfaces'
+import styles from './Header.module.css'
+import React, { useRef, useState } from 'react'
 
 interface Props {
-  data: DataMovie[] | DataTv[];
-  filterData: (params1: any, params2: any) => any;
-  type: boolean;
-  setType: (params: any) => any;
+  filterData: any
+  type: boolean
+  setType: (a: boolean) => any
 }
 
 export default function Header({
-  data,
   filterData,
   type,
-  setType
+  setType,
 }: Props): JSX.Element {
-  const [text, setText] = useState("");
-  const inputRef = useRef(null);
+  const [text, setText] = useState<string>('')
+  const inputRef = useRef(null)
   return (
     <main className={styles.main}>
       <div>
         <button
           style={
             !type
-              ? { backgroundColor: "rgba(255, 255, 255,0.7)" }
-              : { backgroundColor: "rgba(255, 0, 255,0.3)" }
+              ? { backgroundColor: 'rgba(255, 255, 255,0.7)' }
+              : { backgroundColor: 'rgba(255, 0, 255,0.3)' }
           }
           onClick={() => {
-            setType(true);
+            setType(true)
           }}
         >
           Movie
@@ -41,11 +33,11 @@ export default function Header({
         <button
           style={
             !type
-              ? { backgroundColor: "rgba(255, 0, 255,0.3)" }
-              : { backgroundColor: "rgba(255, 255, 255,0.7)" }
+              ? { backgroundColor: 'rgba(255, 0, 255,0.3)' }
+              : { backgroundColor: 'rgba(255, 255, 255,0.7)' }
           }
           onClick={() => {
-            setType(false);
+            setType(false)
           }}
         >
           Series
@@ -53,21 +45,21 @@ export default function Header({
         <input
           ref={inputRef}
           type="text"
-          value={text}
+          value={String(text)}
           onChange={(e) => {
-            setText(e.target.value);
+            setText(String(e.target.value))
           }}
-          placeholder={`Search... ${type ? "movies" : "tv"}`}
+          placeholder={`Search... ${type ? 'movies' : 'tv'}`}
         />
         <button
           onClick={() => {
-            filterData(data, text);
-            setText("");
+            filterData(text)
+            setText('')
           }}
         >
           search
         </button>
       </div>
     </main>
-  );
+  )
 }
