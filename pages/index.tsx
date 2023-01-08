@@ -7,7 +7,6 @@ import Tv from './tv'
 import Header from './Header'
 import Image from 'next/image'
 
-
 async function getData(url: string): Promise<any> {
   const get = await fetch(url)
   const data: any = (await get.json()) || null
@@ -31,16 +30,19 @@ export default function Home(): JSX.Element {
       if (type) {
         const _data = await getData('/api/mapMovie')
         setData(_data)
-        setSearch(_data.slice(0, 6))
+        const num = 0
+        setSearch(_data?.slice(num, num + 6))
       } else {
         const _data = await getData('/api/mapTv')
         setData(_data)
-        setSearch(_data.slice(0, 6))
+        const num = 200
+        setSearch(_data?.slice(num, num + 6))
       }
     })()
   }, [type])
 
-  function filterData(_data: any, text: string): void {
+  function filterData(text: string): void {
+    const _data = data
     const _filter = _data?.filter((item: any): any =>
       item.title.toLowerCase().includes(text.toLowerCase())
     )

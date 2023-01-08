@@ -13,6 +13,9 @@ export default async function infoMovie(
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
     })
     const result = await data.json()
+    if (!result) {
+      console.log('resultMovie: ', result)
+    }
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json(null)
