@@ -4,10 +4,10 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 5px;
-  margin: 0px;
-  width: 33%;
-  height: calc(50vh - 23px);
+  padding: 3px;
+  margin: 3px;
+  width: 350px;
+  height: 50vh;
   color: white;
   text-shadow: 2px 2px 2px #000000;
 }
@@ -32,12 +32,10 @@
   text-overflow: ellipsis;
 }
 @media screen and (max-width: 500px) {
-  .container {
-    width: 98%;
-  }
 }
-@media screen and (min-width: 500px) and (max-width: 800px) {
-  .container {
-    width: 48%;
-  }
+@media screen and (min-width: 500px) and (max-width: 700px) {
+}
+@media screen and (min-width: 700px) and (max-width: 1000px) {
+}
+@media screen and (min-width: 1000px) and (max-width: 1360px) {
 }

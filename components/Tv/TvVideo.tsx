@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import styles from '../styles/movie.module.css'
-import { DataTv } from '../components/interfaces'
 interface PropsVideo {
   video: any
   setVideo: (params: any) => any

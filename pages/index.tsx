@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
-import { DataMovie, DataTv } from '../components/interfaces'
-import Movie from './movie'
-import Tv from './tv'
-import Header from './Header'
+import Movie from '../components/Movie/Movie'
+import Tv from '../components/Tv/Tv'
+import Header from '../components/Header/Header'
 import Image from 'next/image'
 
 async function getData(url: string): Promise<any> {
@@ -18,26 +17,30 @@ interface PropsStateData {
   data: any
   setData: any
 }
+
 export default function Home(): JSX.Element {
   const [data, setData] = useState<PropsStateData | null>(null)
   const [search, setSearch] = useState<PropsStateData | null>(null)
   const [type, setType] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(true)
-
+  const [numberCards, setNumberCards] = useState(8)
   useEffect(() => {
     setData(null)
     setSearch(null)
+    const numCards = Math.floor(window.screen.width / 340) * 2 || 1
+    console.log(window.screen.width, numCards)
+    setNumberCards(numCards)
     void (async (): Promise<void> => {
       if (type) {
         const _data = await getData('/api/mapMovie')
         setData(_data)
         const num = 0
-        setSearch(_data?.slice(num, num + 6))
+        setSearch(_data?.slice(num, num + numCards))
       } else {
         const _data = await getData('/api/mapTv')
         setData(_data)
         const num = 200
-        setSearch(_data?.slice(num, num + 6))
+        setSearch(_data?.slice(num, num + numCards))
       }
     })()
   }, [type])
@@ -50,8 +53,8 @@ export default function Home(): JSX.Element {
     const _filter = _data.filter((item: any): any =>
       item.title.toLowerCase().includes(text.toLowerCase())
     )
-    if (_filter?.length > 6) {
-      setSearch(_filter.slice(0, 6))
+    if (_filter?.length > numberCards) {
+      setSearch(_filter.slice(0, numberCards))
     } else if (_filter.length > 0) {
       setSearch(_filter)
     }

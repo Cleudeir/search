@@ -1,15 +1,15 @@
-import styles from './Cards.module.css'
-export default function CardData({ data, setVideo }: any): JSX.Element {
+import styles from './Card.module.css'
+export default function CardNoData({ item }: any): JSX.Element {
   return (
     <div
       className={styles.container}
       onClick={() => {
-        setVideo(data)
+        alert('movie not found or loading...')
       }}
     >
       <div
         style={{
-          backgroundImage: `url(${data.backdrop_path || data.poster_path})`,
+          backgroundImage: `url('https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif')`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -24,10 +24,10 @@ export default function CardData({ data, setVideo }: any): JSX.Element {
       >
         <div className={styles.infos}>
           <div className={styles.titles}>
-            <h2>{data.title}</h2>
+            <h2>{item.title}</h2>
           </div>
           <div className={styles.overview}>
-            <h4>{data.overview}</h4>
+            <h4></h4>
           </div>
         </div>
       </div>

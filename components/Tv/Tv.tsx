@@ -1,8 +1,7 @@
 import styles from '../styles/movie.module.css'
 import React, { useState } from 'react'
-import { DataTv } from '../components/interfaces'
-import CardTv from '../components/CardTv'
-import VideoTv from './VideoTv'
+import { DataTv } from '../interfaces'
+import Card from '../Card/Card'
 interface Props {
   search: any
 }
@@ -14,11 +13,10 @@ export default function Tv({ search }: Props): JSX.Element {
       {!video && (
         <div className={styles.cards}>
           {search?.map((item: DataTv) => (
-            <CardTv item={item} setVideo={setVideo} key={String(item.id)} />
+            <Card item={item} key={String(item.id)} url={'/api/imdbTv'} />
           ))}
         </div>
       )}
-      {video && <VideoTv video={video} setVideo={setVideo} />}
     </main>
   )
 }

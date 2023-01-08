@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { DataTv } from './interfaces'
-import styles from '../styles/CardMovie.module.css'
+import { DataTv } from '../interfaces'
 import { useEffect } from 'react'
 import CardNoData from './CardNoData'
 import CardData from './CardData'
 
 interface Props {
   item: DataTv
+  url: string
+  route?: string
   key?: string
-  setVideo?: (params: any) => any
 }
 
-async function getInfo({ item }: Props): Promise<DataTv | null> {
+async function getInfo({ item, url }: Props): Promise<DataTv | null> {
   try {
-    const data = await fetch('/api/infoTv', {
+    const data = await fetch(url, {
       method: 'POST',
       body: JSON.stringify({ item }),
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -26,22 +26,23 @@ async function getInfo({ item }: Props): Promise<DataTv | null> {
   }
 }
 
-function CardMovie({ item, setVideo }: Props): JSX.Element {
+function Card({ item, url, route }: Props): JSX.Element {
   const [data, setData] = useState<DataTv | null>(null)
 
   useEffect(() => {
-    void start({ item })
+    async function start(): Promise<void> {
+      void getInfo({ item, url }).then((_data) => {
+        setData(_data)
+      })
+    }
+    start()
   }, [])
-  async function start({ item }: Props): Promise<void> {
-    void getInfo({ item }).then((_data) => {
-      setData(_data)
-    })
-  }
+
   return (
     <>
-      {data && <CardData data={data} setVideo={setVideo} />}
+      {data && <CardData data={data} route={route} />}
       {!data && <CardNoData item={item} />}
     </>
   )
 }
-export default CardMovie
+export default Card
