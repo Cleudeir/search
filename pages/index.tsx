@@ -14,6 +14,7 @@ async function getData(url: string): Promise<any> {
 }
 
 interface PropsStateData {
+  [x: string]: any
   data: any
   setData: any
 }
@@ -42,8 +43,11 @@ export default function Home(): JSX.Element {
   }, [type])
 
   function filterData(text: string): void {
+    if (!data) {
+      return
+    }
     const _data = data
-    const _filter = _data?.filter((item: any): any =>
+    const _filter = _data.filter((item: any): any =>
       item.title.toLowerCase().includes(text.toLowerCase())
     )
     if (_filter?.length > 6) {
