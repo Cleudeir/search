@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 function urlTransform(router: any): DataTv {
   const [title]: string[] = router
-    .replace('/browse-', '')
+    .replace('browse-', '')
     .split('-')
     .join(' ')
     .split(' videos')
@@ -21,6 +21,7 @@ function urlTransform(router: any): DataTv {
     title,
     episodes: [],
   }
+  console.log(obj)
   return obj
 }
 export async function getStaticProps(context: { params: { id: string } }) {
@@ -32,7 +33,13 @@ export async function getStaticProps(context: { params: { id: string } }) {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const video = await data.json()
-  console.log('video: ', video)
+  if (!video) {
+    fetch(`${process.env.BACK_URL}/api/deleteTv`, {
+      method: 'DELETE',
+      body: JSON.stringify({ item }),
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+    })
+  }
   return {
     props: { video },
     revalidate: 30 * 24 * 60 * 60,
@@ -92,7 +99,7 @@ export default function movieId({ video }: { video: DataTv }): JSX.Element {
           <button type="button">Home</button>
         </Link>
         <div className={styles.legend}>
-          <h2>{video.title.replace('browse ', '')}</h2>
+          <h2>{video.title}</h2>
         </div>
         <h2>
           {video.episodes[index].id + 1}/{video.episodes.length}

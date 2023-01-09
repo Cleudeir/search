@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 10px;
@@ -24,7 +24,9 @@
   height: 100%;
 }
 .infos .titles {
-  margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 50px;
 }
 .infos .overview {
   margin-top: 20px;
