@@ -31,7 +31,7 @@ export default function Home(): JSX.Element {
     void (async (): Promise<void> => {
       const _data = await getData('/api/mapMovie')
       setData(_data)
-      const num = 0
+      const num = 200
       setSearch(_data?.slice(num, num + numCards))
     })()
   }, [])

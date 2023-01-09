@@ -1,15 +1,10 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styles from '../../styles/movie.module.css'
-import { DataMovie } from '../../components/interfaces'
+import { DataTv } from '../../components/interfaces'
 import Link from 'next/link'
 
-async function getData(url: string): Promise<any> {
-  const get = await fetch(url)
-  const data: any = (await get.json()) || null
-  return data
-}
-async function getInfo(item: DataMovie): Promise<DataMovie | null> {
+async function getInfo(item: DataTv): Promise<DataTv | null> {
   try {
     const data = await fetch('/api/infoTv', {
       method: 'POST',
@@ -23,26 +18,25 @@ async function getInfo(item: DataMovie): Promise<DataMovie | null> {
     return null
   }
 }
-function urlTransform(url) {
-  const [title]: string[] = url
+function urlTransform(router: any): DataTv {
+  const [title]: string[] = router
     .replace('/browse-', '')
     .split('-')
     .join(' ')
     .split(' videos')
-  return { id: Math.ceil(Math.random() * 1000), url, title }
+  return { id: Math.ceil(Math.random() * 1000), url: router, title }
 }
 
 export default function movieId(): JSX.Element {
-  const url = useRouter().query.id
-  const [video, setVideo] = useState(null)
+  const router = useRouter().query.id
+  const [video, setVideo] = useState<any>(null)
   const [index, setIndex] = useState<number>(0)
-
   useEffect(() => {
-    if (!url) {
+    if (!router) {
       return
     }
     void (async () => {
-      const item = urlTransform(url)
+      const item = urlTransform(router)
       console.log(item)
       const data = await getInfo(item)
       console.log('data: ', data)
@@ -54,7 +48,7 @@ export default function movieId(): JSX.Element {
         }
       }
     })()
-  }, [url])
+  }, [router])
   function changeIndex(e: number): void {
     if (video) {
       let _index = index + e

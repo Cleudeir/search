@@ -4,11 +4,6 @@ import styles from '../../styles/movie.module.css'
 import { DataMovie } from '../../components/interfaces'
 import Link from 'next/link'
 
-async function getData(url: string): Promise<any> {
-  const get = await fetch(url)
-  const data: any = (await get.json()) || null
-  return data
-}
 async function getInfo(item: DataMovie): Promise<DataMovie | null> {
   try {
     const data = await fetch('/api/infoMovie', {
@@ -23,12 +18,8 @@ async function getInfo(item: DataMovie): Promise<DataMovie | null> {
     return null
   }
 }
-function urlTransform(url) {
-  const [baseArray]: string[] = url
-    .replace('/', '')
-    .split('-')
-    .join(' ')
-    .split('_')
+function urlTransform(router: any): DataMovie {
+  const [baseArray]: string[] = router.split('-').join(' ').split('_')
   const baseString = baseArray.split(' ')
   const title: string = baseString
     .slice(0, -2)
@@ -36,25 +27,32 @@ function urlTransform(url) {
     .join(' ')
   const dub: boolean = baseString.includes('dublado')
   const [year, quality]: string[] = baseString.slice(-2)
-  return { title, dub, year, quality, url: url + '.html' }
+  return {
+    id: Math.ceil(Math.random() * 1000),
+    title,
+    dub,
+    year,
+    quality,
+    url: router + '.html',
+  }
 }
 
 export default function movieId(): JSX.Element {
-  const url = useRouter().query.id
-  const [video, setVideo] = useState(null)
+  const router = useRouter().query.id
+  const [video, setVideo] = useState<any>(null)
   // -----------------
   useEffect(() => {
-    if (!url) {
+    if (!router) {
       return
     }
     void (async () => {
-      const item = urlTransform(url)
+      const item = urlTransform(router)
       console.log(item)
       const data = await getInfo(item)
       console.log('data: ', data)
       setVideo(data)
     })()
-  }, [url])
+  }, [router])
 
   if (!video) {
     return <></>
@@ -65,7 +63,6 @@ export default function movieId(): JSX.Element {
         <Link href={'/movie'}>
           <button type="button">Home</button>
         </Link>
-
         <div className={styles.legend}>
           <h2>{video.title}</h2>
         </div>

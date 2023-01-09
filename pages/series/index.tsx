@@ -32,7 +32,7 @@ export default function Home(): JSX.Element {
     void (async (): Promise<void> => {
       const _data = await getData('/api/mapTv')
       setData(_data)
-      const num = 0
+      const num = 100
       setSearch(_data?.slice(num, num + numCards))
     })()
   }, [])
