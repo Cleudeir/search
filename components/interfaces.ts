@@ -27,7 +27,7 @@ export interface DataTv {
   id: number
   url: string
   title: string
-  episodes?: episode[]
+  episodes: episode[]
   adult?: boolean
   backdrop_path?: string
   genre_ids?: number[]

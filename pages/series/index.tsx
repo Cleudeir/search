@@ -5,6 +5,7 @@ import Header from '../../components/Header/Header'
 import Card from '../../components/Card/Card'
 import Loading from '../../components/Loading'
 import { useRouter } from 'next/router'
+import { DataTv } from '../../components/interfaces'
 
 async function getData(url: string): Promise<any> {
   const get = await fetch(url)
@@ -12,15 +13,18 @@ async function getData(url: string): Promise<any> {
   return data
 }
 
-interface PropsStateData {
-  [x: string]: any
-  data: any
-  setData: any
+export async function getStaticProps() {
+  console.log('getStatic - Home: ')
+  const resp = await fetch(`${process.env.BACK_URL}/api/mapTv`)
+  const data = await resp.json()
+  return {
+    props: { data },
+    revalidate: 30 * 24 * 60 * 60,
+  }
 }
 
-export default function Home(): JSX.Element {
-  const [data, setData] = useState<PropsStateData | null>(null)
-  const [search, setSearch] = useState<PropsStateData | null>(null)
+export default function Home({ data }: { data: DataTv[] }): JSX.Element {
+  const [search, setSearch] = useState<any>(null)
   const [numberCards, setNumberCards] = useState(8)
   const { route } = useRouter()
   console.log(route)
@@ -29,12 +33,8 @@ export default function Home(): JSX.Element {
     const numCards = Math.floor(window.screen.width / 340) * 2 || 1
     console.log(window.screen.width, numCards)
     setNumberCards(numCards)
-    void (async (): Promise<void> => {
-      const _data = await getData('/api/mapTv')
-      setData(_data)
-      const num = 100
-      setSearch(_data?.slice(num, num + numCards))
-    })()
+    const num = 100
+    setSearch(data?.slice(num, num + numCards))
   }, [])
 
   function filterData(text: string): void {

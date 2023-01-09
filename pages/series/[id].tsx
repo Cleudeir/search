@@ -1,21 +1,12 @@
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styles from '../../styles/movie.module.css'
 import { DataTv } from '../../components/interfaces'
 import Link from 'next/link'
 
-async function getInfo(item: DataTv): Promise<DataTv | null> {
-  try {
-    const data = await fetch('/api/infoTv', {
-      method: 'POST',
-      body: JSON.stringify({ item }),
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    })
-    const _data = await data.json()
-    return _data
-  } catch (error) {
-    console.warn(error)
-    return null
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking', // false or 'blocking'
   }
 }
 function urlTransform(router: any): DataTv {
@@ -24,31 +15,40 @@ function urlTransform(router: any): DataTv {
     .split('-')
     .join(' ')
     .split(' videos')
-  return { id: Math.ceil(Math.random() * 1000), url: router, title }
+  const obj = {
+    id: Math.ceil(Math.random() * 1000),
+    url: router,
+    title,
+    episodes: [],
+  }
+  return obj
+}
+export async function getStaticProps(context: { params: { id: string } }) {
+  const { id } = context.params
+  const item = urlTransform(id)
+  console.log('item: ', item)
+  const data = await fetch(`${process.env.BACK_URL}/api/infoTv`, {
+    method: 'POST',
+    body: JSON.stringify({ item }),
+    headers: { 'Content-type': 'application/json; charset=UTF-8' },
+  })
+  const video = await data.json()
+  return {
+    props: { video },
+    revalidate: 30 * 24 * 60 * 60,
+  }
 }
 
-export default function movieId(): JSX.Element {
-  const router = useRouter().query.id
-  const [video, setVideo] = useState<any>(null)
+export default function movieId({ video }: { video: DataTv }): JSX.Element {
   const [index, setIndex] = useState<number>(0)
   useEffect(() => {
-    if (!router) {
-      return
-    }
-    void (async () => {
-      const item = urlTransform(router)
-      console.log(item)
-      const data = await getInfo(item)
-      console.log('data: ', data)
-      setVideo(data)
-      if (data?.title) {
-        const storage = Number(localStorage.getItem(data.title))
-        if (storage) {
-          setIndex(storage)
-        }
+    if (video?.title) {
+      const storage = Number(localStorage.getItem(video.title))
+      if (storage) {
+        setIndex(storage)
       }
-    })()
-  }, [router])
+    }
+  }, [])
   function changeIndex(e: number): void {
     if (video) {
       let _index = index + e
