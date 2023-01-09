@@ -92,7 +92,7 @@ export default function movieId({ video }: { video: DataTv }): JSX.Element {
           <button type="button">Home</button>
         </Link>
         <div className={styles.legend}>
-          <h2>{video.title}</h2>
+          <h2>{video.title.replace('browse ', '')}</h2>
         </div>
         <h2>
           {video.episodes[index].id + 1}/{video.episodes.length}
