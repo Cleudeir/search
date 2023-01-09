@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styles from '../../styles/movie.module.css'
+import styles from '../../styles/Pages.module.css'
 import { DataTv } from '../../components/interfaces'
 import Link from 'next/link'
 
@@ -26,13 +26,13 @@ function urlTransform(router: any): DataTv {
 export async function getStaticProps(context: { params: { id: string } }) {
   const { id } = context.params
   const item = urlTransform(id)
-  console.log('item: ', item)
   const data = await fetch(`${process.env.BACK_URL}/api/infoTv`, {
     method: 'POST',
     body: JSON.stringify({ item }),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const video = await data.json()
+  console.log('video: ', video)
   return {
     props: { video },
     revalidate: 30 * 24 * 60 * 60,
@@ -41,7 +41,19 @@ export async function getStaticProps(context: { params: { id: string } }) {
 
 export default function movieId({ video }: { video: DataTv }): JSX.Element {
   const [index, setIndex] = useState<number>(0)
+  const [counter, setCounter] = useState(3)
+
   useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
+  }, [counter])
+
+  useEffect(() => {
+    if (!video) {
+      setTimeout(() => {
+        window.location.href = '/series'
+      }, 3000)
+    }
+
     if (video?.title) {
       const storage = Number(localStorage.getItem(video.title))
       if (storage) {
@@ -64,7 +76,14 @@ export default function movieId({ video }: { video: DataTv }): JSX.Element {
     }
   }
   if (!video) {
-    return <></>
+    return (
+      <div className={styles.iframe}>
+        <div className={styles.error}>
+          <h1>I could not find this link!</h1>
+          <h1>return to Home in 0{counter} seconds</h1>
+        </div>
+      </div>
+    )
   }
   return (
     <div className={styles.iframe}>

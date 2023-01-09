@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from '../../styles/movie.module.css'
+import styles from '../../styles/Pages.module.css'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
 import Card from '../../components/Card/Card'
@@ -25,16 +25,13 @@ export async function getStaticProps() {
 
 export default function Home({ data }: { data: DataTv[] }): JSX.Element {
   const [search, setSearch] = useState<any>(null)
-  const [numberCards, setNumberCards] = useState(8)
+  const [numberCards] = useState(10)
   const { route } = useRouter()
   console.log(route)
 
   useEffect(() => {
-    const numCards = Math.floor(window.screen.width / 340) * 2 || 1
-    console.log(window.screen.width, numCards)
-    setNumberCards(numCards)
     const num = 100
-    setSearch(data?.slice(num, num + numCards))
+    setSearch(data?.slice(num, num + numberCards))
   }, [])
 
   function filterData(text: string): void {

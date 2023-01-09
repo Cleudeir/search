@@ -10,6 +10,10 @@
   min-height: calc(100vh - 0px);
   color: white;
 }
+.error {
+  color: white;
+  text-align: center;
+}
 .main .cards {
   display: flex;
   flex-direction: row;
