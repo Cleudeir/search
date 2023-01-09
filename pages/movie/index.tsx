@@ -34,6 +34,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
   }, [])
 
   function filterData(text: string): void {
+    setSearch(null)
     if (!data) {
       return
     }

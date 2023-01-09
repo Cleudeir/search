@@ -35,6 +35,7 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
   }, [])
 
   function filterData(text: string): void {
+    setSearch(null)
     if (!data) {
       return
     }

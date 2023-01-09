@@ -38,6 +38,12 @@ export default function Header({ filterData, route }: Props): JSX.Element {
             setText(String(e.target.value))
           }}
           placeholder={`Search...`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              filterData(text)
+              setText('')
+            }
+          }}
         />
         <button
           onClick={() => {
