@@ -33,13 +33,6 @@ export async function getStaticProps(context: { params: { id: string } }) {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const video = await data.json()
-  if (!video) {
-    fetch(`${process.env.BACK_URL}/api/deleteTv`, {
-      method: 'DELETE',
-      body: JSON.stringify({ item }),
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    })
-  }
   return {
     props: { video },
     revalidate: 30 * 24 * 60 * 60,

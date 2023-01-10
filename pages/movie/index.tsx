@@ -30,6 +30,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
   console.log(route)
   useEffect(() => {
     const num = 0
+    const startArrayMovie = ['the mentalist', 'ataque dos titas']
     setSearch(data?.slice(num, num + numberCards))
   }, [])
 
