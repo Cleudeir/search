@@ -97,6 +97,8 @@ export default function movieId({
         void (async () => {
           const item = data.episodes[0]
           const _video = await getInfo({ item })
+          console.log('data: ', data)
+          console.log('_video: ', _video)
           setVideo(_video)
         })()
       }
