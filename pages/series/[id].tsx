@@ -28,6 +28,7 @@ function urlTransform(router: any): DataTv {
 export async function getStaticProps(context: { params: { id: string } }) {
   const { id } = context.params
   const item = urlTransform(id)
+  console.log({ id, item })
   const get = await fetch(`${process.env.BACK_URL}/api/infoTvList`, {
     method: 'POST',
     body: JSON.stringify({ item }),
@@ -85,14 +86,12 @@ export default function movieId({
 
     if (data) {
       const storage = localStorage.getItem(data.title)
-      if (storage) {
+      if (storage !== 'null') {
         setVideo(JSON.parse(storage))
       } else {
         void (async () => {
           const item = data.episodes[0]
           const _video = await getInfo({ item })
-          console.log('data: ', data)
-          console.log('_video: ', _video)
           setVideo(_video)
         })()
       }
@@ -113,6 +112,12 @@ export default function movieId({
       const _video = await getInfo({ item })
       localStorage.setItem(data.title, JSON.stringify(_video))
       setVideo(_video)
+      _index = _index + 1
+      if (_index < episodesLength - 1) {
+        const nextItem = data.episodes[_index]
+        const nextVideo = await getInfo({ item: nextItem })
+        console.log('nextVideo', nextVideo)
+      }
     }
   }
   if (!data) {
