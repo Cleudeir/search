@@ -34,13 +34,7 @@ export async function getStaticProps(context: { params: { id: string } }) {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const data = await get.json()
-  if (!data) {
-    fetch(`${process.env.BACK_URL}/api/deleteTv`, {
-      method: 'DELETE',
-      body: JSON.stringify({ item }),
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    })
-  }
+  console.log({ data, item })
   return {
     props: { data, item },
     revalidate: 30 * 24 * 60 * 60,
