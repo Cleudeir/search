@@ -65,6 +65,7 @@ export default function movieId({
 }): JSX.Element {
   const [video, setVideo] = useState<episode | null>(null)
   const [counter, setCounter] = useState(3)
+  const [selectValue, setSelectValue] = useState(0)
 
   useEffect(() => {}, [])
 
@@ -97,17 +98,27 @@ export default function movieId({
       }
     }
   }, [])
-  async function changeIndex(e: number): Promise<void> {
+  async function changeIndex(e: number, id?: number): Promise<void> {
+    console.log('e', e, '_id: ', id)
     if (data && video) {
       setVideo(null)
-      let _index = video.id + e
+
+      let _id = video.id
+      if (id >= 0) {
+        _id = id
+      }
+      console.log('_id: ', _id)
+      let _index = _id + e
+
       const episodesLength = data.episodes.length
-      if (_index > episodesLength - 1) {
+      if (_index >= episodesLength - 1) {
         _index = episodesLength - 1
       }
       if (_index < 0) {
         _index = 0
       }
+      setSelectValue(_index)
+      console.log('_index: ', _index)
       const item = data.episodes[_index]
       const _video = await getInfo({ item })
       localStorage.setItem(data.title, JSON.stringify(_video))
@@ -144,7 +155,19 @@ export default function movieId({
             <h2>{data.title}</h2>
           </div>
           <h2>
-            {video.id + 1}/{data.episodes.length}
+            <select
+              value={selectValue}
+              name="select"
+              onChange={(e) => {
+                changeIndex(0, Number(e.target.value))
+              }}
+            >
+              {data.episodes.map((_item, key) => (
+                <option key={key} value={_item.id}>
+                  {_item.id + 1}/{data.episodes.length}
+                </option>
+              ))}
+            </select>
           </h2>
           <button
             type="button"
