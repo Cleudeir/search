@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { DataTv } from '../interfaces'
 import { useEffect } from 'react'
-import Link from 'next/link'
 import styles from './Card.module.css'
 interface Props {
   item: DataTv
@@ -39,7 +38,7 @@ function Card({ item, url, route }: Props): JSX.Element {
   return (
     <>
       {data && (
-        <Link href={route + data.url.replace('.html', '')}>
+        <a href={route + data.url.replace('.html', '')}>
           <div className={styles.container}>
             <div
               style={{
@@ -68,7 +67,7 @@ function Card({ item, url, route }: Props): JSX.Element {
               </div>
             </div>
           </div>
-        </Link>
+        </a>
       )}
     </>
   )
