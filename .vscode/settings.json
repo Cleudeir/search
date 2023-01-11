@@ -1,4 +1,12 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["Dublado", "Filmes", "imdb", "Legendado", "tmdb"]
+  "cSpell.words": [
+    "ataque",
+    "Dublado",
+    "Filmes",
+    "imdb",
+    "Legendado",
+    "titas",
+    "tmdb"
+  ]
 }
