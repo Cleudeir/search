@@ -86,7 +86,7 @@ export default function movieId({
 
     if (data) {
       const storage = localStorage.getItem(data.title)
-      if (storage !== 'null') {
+      if (storage !== 'null' && storage) {
         setVideo(JSON.parse(storage))
       } else {
         void (async () => {
