@@ -104,7 +104,7 @@ export default function movieId({
       setVideo(null)
 
       let _id = video.id
-      if (id >= 0) {
+      if (id !== undefined) {
         _id = id
       }
       console.log('_id: ', _id)
