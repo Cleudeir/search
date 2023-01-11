@@ -36,20 +36,20 @@ export async function getStaticProps(context: { params: { id: any } }) {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const video = await data.json()
-  if (!video) {
-    fetch(`${process.env.BACK_URL}/api/deleteMovie`, {
-      method: 'DELETE',
-      body: JSON.stringify({ item }),
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    })
-  }
+
   return {
-    props: { video },
+    props: { video, item },
     revalidate: 30 * 24 * 60 * 60,
   }
 }
 
-export default function movieId({ video }: { video: DataMovie }): JSX.Element {
+export default function movieId({
+  video,
+  item,
+}: {
+  video: DataMovie
+  item: DataMovie
+}): JSX.Element {
   const [counter, setCounter] = useState(3)
 
   useEffect(() => {
@@ -58,6 +58,11 @@ export default function movieId({ video }: { video: DataMovie }): JSX.Element {
 
   useEffect(() => {
     if (!video) {
+      fetch(`/api/delete`, {
+        method: 'DELETE',
+        body: JSON.stringify({ item, type: 'Tv' }),
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      })
       setTimeout(() => {
         window.location.href = '/movie'
       }, 3000)

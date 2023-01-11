@@ -42,7 +42,7 @@ export async function getStaticProps(context: { params: { id: string } }) {
     })
   }
   return {
-    props: { data },
+    props: { data, item },
     revalidate: 30 * 24 * 60 * 60,
   }
 }
@@ -61,8 +61,13 @@ async function getInfo({ item }: { item: episode }): Promise<DataTv | null> {
   }
 }
 
-export default function movieId({ data }: { data: DataTv }): JSX.Element {
-  const [index, setIndex] = useState<number>(0)
+export default function movieId({
+  data,
+  item,
+}: {
+  data: DataTv
+  item: DataTv
+}): JSX.Element {
   const [video, setVideo] = useState<episode | null>(null)
   const [counter, setCounter] = useState(3)
 
@@ -74,6 +79,11 @@ export default function movieId({ data }: { data: DataTv }): JSX.Element {
 
   useEffect(() => {
     if (!data) {
+      fetch(`/api/delete`, {
+        method: 'DELETE',
+        body: JSON.stringify({ item, type: 'Movie' }),
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      })
       setTimeout(() => {
         window.location.href = '/series'
       }, 3000)

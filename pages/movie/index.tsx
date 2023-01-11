@@ -7,12 +7,6 @@ import Loading from '../../components/Loading'
 import { useRouter } from 'next/router'
 import { DataMovie } from '../../components/interfaces'
 
-async function getData(url: string): Promise<any> {
-  const get = await fetch(url)
-  const data: any = (await get.json()) || null
-  return data
-}
-
 export async function getStaticProps() {
   console.log('getStatic - Home: ')
   const resp = await fetch(`${process.env.BACK_URL}/api/mapMovie`)
@@ -31,6 +25,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
   useEffect(() => {
     const num = 0
     const startArrayMovie = ['the mentalist', 'ataque dos titas']
+    console.log('startArrayMovie: ', startArrayMovie)
     setSearch(data?.slice(num, num + numberCards))
   }, [])
 

@@ -7,12 +7,6 @@ import Loading from '../../components/Loading'
 import { useRouter } from 'next/router'
 import { DataTv } from '../../components/interfaces'
 
-async function getData(url: string): Promise<any> {
-  const get = await fetch(url)
-  const data: any = (await get.json()) || null
-  return data
-}
-
 export async function getStaticProps() {
   console.log('getStatic - Home: ')
   const resp = await fetch(`${process.env.BACK_URL}/api/mapTv`)
