@@ -60,7 +60,7 @@ export default function movieId({
     if (!video) {
       fetch(`/api/delete`, {
         method: 'DELETE',
-        body: JSON.stringify({ item, type: 'Tv' }),
+        body: JSON.stringify({ item, type: 'Movie' }),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       })
       setTimeout(() => {
