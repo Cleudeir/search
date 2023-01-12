@@ -3,7 +3,6 @@ import styles from '../../styles/Pages.module.css'
 import { DataTv, episode } from '../../components/interfaces'
 import Link from 'next/link'
 import Loading from '../../components/Loading'
-
 export async function getStaticPaths() {
   return {
     paths: [],
@@ -67,8 +66,6 @@ export default function movieId({
   const [counter, setCounter] = useState(3)
   const [selectValue, setSelectValue] = useState(0)
 
-  useEffect(() => {}, [])
-
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
   }, [])
@@ -87,8 +84,11 @@ export default function movieId({
 
     if (data) {
       const storage = localStorage.getItem(data.title)
-      if (storage !== 'null' && storage) {
-        setVideo(JSON.parse(storage))
+      console.log('storage: ', storage)
+      if (storage !== 'null' && storage !== null) {
+        const item = JSON.parse(storage)
+        setVideo(item)
+        setSelectValue(item.id)
       } else {
         void (async () => {
           const item = data.episodes[0]
@@ -97,19 +97,15 @@ export default function movieId({
         })()
       }
     }
-  }, [])
+  }, [data])
   async function changeIndex(e: number, id?: number): Promise<void> {
-    console.log('e', e, '_id: ', id)
     if (data && video) {
       setVideo(null)
-
       let _id = video.id
       if (id !== undefined) {
         _id = id
       }
-      console.log('_id: ', _id)
       let _index = _id + e
-
       const episodesLength = data.episodes.length
       if (_index >= episodesLength - 1) {
         _index = episodesLength - 1
@@ -118,7 +114,6 @@ export default function movieId({
         _index = 0
       }
       setSelectValue(_index)
-      console.log('_index: ', _index)
       const item = data.episodes[_index]
       const _video = await getInfo({ item })
       localStorage.setItem(data.title, JSON.stringify(_video))
@@ -126,11 +121,11 @@ export default function movieId({
       _index = _index + 1
       if (_index < episodesLength - 1) {
         const nextItem = data.episodes[_index]
-        const nextVideo = await getInfo({ item: nextItem })
-        console.log('nextVideo', nextVideo)
+        await getInfo({ item: nextItem })
       }
     }
   }
+
   if (!data) {
     return (
       <div className={styles.iframe}>
@@ -145,54 +140,61 @@ export default function movieId({
     return <Loading />
   }
   return (
-    video && (
-      <div className={styles.iframe}>
-        <div className={styles.buttons}>
-          <Link href={'/series'}>
-            <button type="button">Home</button>
-          </Link>
-          <div className={styles.legend}>
-            <h2>{data.title}</h2>
-          </div>
-          <h2>
-            <select
-              value={selectValue}
-              name="select"
-              onChange={(e) => {
-                changeIndex(0, Number(e.target.value))
-              }}
-            >
-              {data.episodes.map((_item, key) => (
-                <option key={key} value={_item.id}>
-                  {_item.id + 1}/{data.episodes.length}
-                </option>
-              ))}
-            </select>
-          </h2>
-          <button
-            type="button"
-            onClick={() => {
-              changeIndex(-1)
-            }}
-          >
-            Return
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              changeIndex(1)
-            }}
-          >
-            Next
-          </button>
+    <div className={styles.iframe}>
+      <div className={styles.buttons}>
+        <Link href={'/series'}>
+          <button type="button">Home</button>
+        </Link>
+        <div className={styles.legend}>
+          <h2>{data.title}</h2>
         </div>
+        <h2>
+          <select
+            value={selectValue}
+            name="select"
+            onChange={(e) => {
+              changeIndex(0, Number(e.target.value))
+            }}
+          >
+            {data.episodes.map((_item, key) => (
+              <option key={key} value={_item.id}>
+                {data.episodes.length < 99
+                  ? (_item.id + 1).toLocaleString('en-US', {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })
+                  : (_item.id + 1).toLocaleString('en-US', {
+                      minimumIntegerDigits: 3,
+                      useGrouping: false,
+                    })}
+              </option>
+            ))}
+          </select>
+        </h2>
+        <button
+          type="button"
+          onClick={() => {
+            changeIndex(-1)
+          }}
+        >
+          Return
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            changeIndex(1)
+          }}
+        >
+          Next
+        </button>
+      </div>
+      {video && (
         <iframe
-          name="Player"
           frameBorder={0}
           src={'https://sinalpublico.com' + video.url}
           allowFullScreen
         ></iframe>
-      </div>
-    )
+      )}
+    </div>
   )
 }

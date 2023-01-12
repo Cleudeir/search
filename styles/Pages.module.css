@@ -49,6 +49,7 @@
 }
 .buttons button,
 .buttons select {
+  cursor: pointer;
   height: 40px;
   width: 60px;
   color: white;
@@ -88,4 +89,20 @@
     z-index: 4;
     overflow: hidden;
   }
+}
+/* width */
+.buttons select::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+.buttons select::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.buttons select::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 10px;
 }
