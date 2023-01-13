@@ -147,7 +147,7 @@ export default function movieId({
      <button type="button">Home</button>
     </Link>
     <div className={styles.legend}>
-     <h2>{data.title}</h2>
+     <h2>{data.title.toUpperCase()}</h2>
     </div>
     <h2>
      <select
