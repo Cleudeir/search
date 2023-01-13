@@ -22,6 +22,7 @@ export interface DataMovie {
 export interface episode {
   id: number
   url: string
+  name?: string
 }
 export interface DataTv {
   id: number

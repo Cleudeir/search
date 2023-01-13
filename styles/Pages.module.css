@@ -1,108 +1,111 @@
 .main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  padding: 0px;
-  margin-top: 0px;
-  width: 100vw;
-  min-height: 100vh;
-  color: white;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: flex-start;
+ flex-wrap: wrap;
+ padding: 0px;
+ margin-top: 0px;
+ width: 100vw;
+ min-height: 100vh;
+ color: white;
 }
 .error {
-  color: white;
-  text-align: center;
+ color: white;
+ text-align: center;
 }
 .main .cards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: center;
+ width: 100%;
 }
 .iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: calc(100vh - 0px);
-  margin: 0px;
+ position: absolute;
+ top: 0;
+ left: 0;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ width: 100%;
+ height: calc(100vh - 0px);
+ margin: 0px;
 }
 .iframe .buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  text-shadow: 1px 1px 1px #000000;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  padding: 5px;
-  margin-bottom: -50px;
-  color: white;
+ white-space: nowrap;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: center;
+ z-index: 1;
+ text-shadow: 1px 1px 1px #000000;
+ background-color: rgba(0, 0, 0, 0.5);
+ border-radius: 5px;
+ padding: 5px;
+ margin-bottom: -50px;
+ color: white;
+ font-size: 0.7em;
 }
 .buttons button,
 .buttons select {
-  cursor: pointer;
-  height: 40px;
-  width: 60px;
-  color: white;
-  background-color: #827f7f;
-  padding: 5px;
-  margin: 0px 10px;
-  font-weight: bold;
-  border: none;
-  border-radius: 2px;
+ cursor: pointer;
+ height: 40px;
+ width: 60px;
+ color: white;
+ background-color: #827f7f;
+ padding: 5px;
+ margin: 0px 10px;
+ font-weight: bold;
+ border: none;
+ border-radius: 2px;
 }
 .buttons select {
-  width: auto;
-  text-align: center;
+ width: auto;
+ text-align: center;
 }
 .buttons select option {
-  text-align: center;
+ text-align: center;
+ font-size: 1.2em;
 }
 .buttons .legend {
-  margin: 0px 20px;
+ margin: 0px 20px;
 }
 .iframe iframe {
-  width: 100%;
-  height: 100%;
+ width: 100%;
+ height: 100%;
 }
-@media (orientation: portrait) {
-  .iframe {
-    position: absolute;
-    transform: rotate(90deg);
-    transform-origin: bottom left;
-    padding: 0;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    margin-top: -100vw;
-    height: 100vw;
-    width: 100vh;
-    z-index: 4;
-    overflow: hidden;
-  }
+@media (orientation: portrait) and (max-width: 480px) {
+ .iframe {
+  position: absolute;
+  transform: rotate(90deg);
+  transform-origin: bottom left;
+  padding: 0;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  margin-top: -100vw;
+  height: 100vw;
+  width: 100vh;
+  z-index: 4;
+  overflow: hidden;
+ }
 }
 /* width */
 .buttons select::-webkit-scrollbar {
-  width: 2px;
+ width: 2px;
 }
 
 /* Track */
 .buttons select::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+ box-shadow: inset 0 0 5px grey;
+ border-radius: 10px;
 }
 
 /* Handle */
 .buttons select::-webkit-scrollbar-thumb {
-  background: white;
-  border-radius: 10px;
+ background: white;
+ border-radius: 10px;
 }

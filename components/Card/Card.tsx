@@ -17,6 +17,7 @@ async function getInfo({ item, url }: Props): Promise<DataTv | null> {
    headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const json = await data.json()
+  console.log('json: ', json)
   return json
  } catch (error) {
   console.warn(error)
@@ -38,7 +39,7 @@ function Card({ item, url, route }: Props): JSX.Element {
  return (
   <>
    {data && (
-    <a href={route + data.url.replace('.html', '')}>
+    <a href={route + '/' + data.id + data.url.replace('.html', '')}>
      <div className={styles.container}>
       <div
        style={{
