@@ -24,7 +24,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
  console.log(route)
  useEffect(() => {
   const arrayStart = [
-   'thor amor e trovao',
+   '1918 A BATALHA DE KRUTY',
    'loucos por justica',
    'tudo em todo lugar ao mesmo tempo',
    'nada de novo no front',
@@ -32,7 +32,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
    'o projeto adam',
    'logan',
    'a procura da felicidade',
-   'coringa',
+   'minions 2 a origem de gru',
    'wall e',
   ]
   const dataFilter = data.filter((item) => arrayStart.includes(item.title))
