@@ -28,6 +28,7 @@ async function getInfo({ item, url }: Props): Promise<DataTv | null> {
 
 function Card({ item, url, route }: Props): JSX.Element {
  const [data, setData] = useState<DataTv | null>(null)
+
  useEffect(() => {
   async function start(): Promise<void> {
    void getInfo({ item, url }).then((_data) => {
@@ -46,19 +47,22 @@ function Card({ item, url, route }: Props): JSX.Element {
       <div>
        <div>
         <Image
-         width={370}
-         height={200}
+         width={420}
+         height={250}
          src={String(data.backdrop_path || data.poster_path)}
          alt={data.url}
         />
        </div>
-       <div className={styles.title}>{data.title.toUpperCase()}</div>
-       <div className={styles.overview}>
-        <h4>
-         {newLocal > 580
-          ? `${data?.overview?.slice(0, 580)}...`
-          : data.overview}
-        </h4>
+       <div className={styles.containerText}>
+        <div className={styles.title}>{data.title.toUpperCase()}</div>
+        <div className={styles.vote}>⭐{data.vote_average}</div>
+        <div className={styles.overview}>
+         <h4>
+          {newLocal > 690
+           ? `${data?.overview?.slice(0, 690)}...`
+           : data.overview}
+         </h4>
+        </div>
        </div>
       </div>
      </div>
