@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
 import { DataTv } from '../interfaces'
 import { useEffect } from 'react'
 import styles from './Card.module.css'
-import Image from 'next/image'
 interface Props {
  item: DataTv
  url: string
@@ -46,9 +46,7 @@ function Card({ item, url, route }: Props): JSX.Element {
      <div className={styles.container}>
       <div>
        <div>
-        <Image
-         width={420}
-         height={250}
+        <img
          src={String(data.backdrop_path || data.poster_path)}
          alt={data.url}
         />

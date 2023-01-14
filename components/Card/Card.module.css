@@ -25,6 +25,10 @@
  z-index: -1;
  padding: 0px;
  margin: 0px;
+ object-fit: cover;
+ object-position: center;
+ width: 420px;
+ height: 250px;
 }
 .containerText {
  position: absolute;
@@ -79,9 +83,11 @@
 }
 @media screen and (max-width: 420px) {
  .container {
-  width: 99vw;
+  width: 100vw;
  }
- .title {
-  width: 99vw;
+ .title,
+ .vote,
+ .container img {
+  width: 100%;
  }
 }
