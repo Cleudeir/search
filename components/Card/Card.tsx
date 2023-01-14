@@ -58,8 +58,8 @@ function Card({ item, url, route }: Props): JSX.Element {
         <div className={styles.vote}>⭐{data.vote_average}</div>
         <div className={styles.overview}>
          <h4>
-          {newLocal > 690
-           ? `${data?.overview?.slice(0, 690)}...`
+          {newLocal > 630
+           ? `${data?.overview?.slice(0, 630)}...`
            : data.overview}
          </h4>
         </div>

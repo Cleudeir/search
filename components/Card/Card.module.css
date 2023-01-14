@@ -9,7 +9,7 @@
  color: black;
  border-radius: 5px;
  background-color: rgb(237, 237, 237, 1);
- height: 100%;
+ height: 250px;
  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -24,7 +24,7 @@
  border-radius: 4px;
  z-index: -1;
  padding: 0px;
- margin: -4px;
+ margin: 0px;
 }
 .containerText {
  position: absolute;
@@ -36,14 +36,17 @@
  opacity: 1;
  transition: all 0.2s;
 }
-.container:hover img {
+.containerText:hover .overview {
+ opacity: 1;
+ transition: all 0.2s;
 }
 
 .title {
- height: 50px;
+ height: 40px;
  overflow: hidden;
  text-overflow: ellipsis;
  padding: 10px 10px 0px 10px;
+ background-color: rgba(0, 0, 0, 0.3);
  width: 420px;
  font-size: 1.4em;
  text-shadow: 1px 1px #000;
@@ -54,20 +57,21 @@
 .vote {
  color: white;
  text-shadow: 1px 1px #000;
+ background-color: rgba(0, 0, 0, 0.3);
  padding-left: 10px;
  height: 25px;
- margin-top: -10px;
  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 .overview {
- background-color: rgba(255, 255, 255, 0.7);
+ background-color: rgba(0, 0, 0, 0.8);
+ color: white;
  opacity: 0;
  transition: all 0.3s;
  padding: 5px 10px;
  font-size: 0.8em;
  overflow: hidden;
  text-overflow: ellipsis;
- height: 181px;
+ height: 185px;
  text-align: justify;
  font-weight: lighter;
  font-family: Arial, Helvetica, sans-serif;
