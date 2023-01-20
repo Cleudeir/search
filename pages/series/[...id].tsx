@@ -21,6 +21,7 @@ function urlTransform(url: string, id: string): DataTv {
   title,
   episodes: [],
  }
+ console.log('obj: ', obj)
  return obj
 }
 
@@ -35,7 +36,6 @@ export async function getStaticProps(context: {
   headers: { 'Content-type': 'application/json; charset=UTF-8' },
  })
  const data = await get.json()
- console.log('data: ', data)
  return {
   props: { data, item },
   revalidate: 30 * 24 * 60 * 60,
@@ -69,7 +69,6 @@ export default function movieId({
 
  useEffect(() => {
   counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
-  console.log(data)
  }, [])
 
  useEffect(() => {
@@ -94,6 +93,7 @@ export default function movieId({
    } else {
     void (async () => {
      const item = data.episodes[0]
+     console.log('item: ', item)
      const _video = await getInfo({ item })
      setVideo(_video)
     })()
