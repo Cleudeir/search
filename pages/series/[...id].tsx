@@ -35,6 +35,7 @@ export async function getStaticProps(context: {
   headers: { 'Content-type': 'application/json; charset=UTF-8' },
  })
  const data = await get.json()
+ console.log('data: ', data)
  return {
   props: { data, item },
   revalidate: 30 * 24 * 60 * 60,
@@ -147,7 +148,7 @@ export default function movieId({
      <button type="button">Home</button>
     </Link>
     <div className={styles.legend}>
-     <h2>{data.title.toUpperCase()}</h2>
+     <h2>{item.title.toUpperCase()}</h2>
     </div>
     <h2>
      <select

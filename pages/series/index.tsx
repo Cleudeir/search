@@ -33,7 +33,6 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
    'ataque dos titas',
    'os simpsons',
    'southpark',
-   'one piece',
    'breaking bad',
    'chernobyl',
    'this is us',

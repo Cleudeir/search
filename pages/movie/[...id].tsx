@@ -89,7 +89,7 @@ export default function movieId({
      <button type="button">Home</button>
     </Link>
     <div className={styles.legend}>
-     <h2>{video.title.toUpperCase()}</h2>
+     <h2>{item.title.toUpperCase()}</h2>
     </div>
    </div>
    <iframe
