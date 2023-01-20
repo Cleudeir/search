@@ -71,6 +71,8 @@ export default function movieId({
   counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
  }, [])
 
+ console.log(' data, item,: ', data, item)
+
  useEffect(() => {
   if (!data) {
    fetch(`/api/delete`, {
@@ -93,6 +95,7 @@ export default function movieId({
    } else {
     void (async () => {
      const item = data.episodes[0]
+     console.log('data: ', data)
      console.log('item: ', item)
      const _video = await getInfo({ item })
      setVideo(_video)
@@ -160,7 +163,7 @@ export default function movieId({
      >
       {data.episodes.map((_item, key) => (
        <option key={key} value={_item.id}>
-        {_item.name}
+        {_item.name || _item.id}
        </option>
       ))}
      </select>

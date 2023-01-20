@@ -4,6 +4,7 @@ import { DataTv } from '../../components/interfaces'
 async function getTmdbTitle(item: DataTv): Promise<DataTv | null> {
   try {
     const title = item.title.toLowerCase().split(' ').join('+')
+
     const pullInfo = await fetch(
       `https://api.themoviedb.org/3/search/tv?include_adult=false&page=1&language=pt-BR&api_key=5417af578f487448df0d4932bc0cc1a5&query=${title}`
     )
