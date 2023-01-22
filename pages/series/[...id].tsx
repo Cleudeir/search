@@ -37,7 +37,7 @@ export async function getStaticProps(context: {
  })
  const data = await get.json()
  return {
-  props: { data, item },
+  props: { data, item, imdbId: Number(id) },
   revalidate: 30 * 24 * 60 * 60,
  }
 }
@@ -59,8 +59,10 @@ async function getInfo({ item }: { item: episode }): Promise<DataTv | null> {
 export default function movieId({
  data,
  item,
+ imdbId,
 }: {
  data: DataTv
+ imdbId: string
  item: DataTv
 }): JSX.Element {
  const [video, setVideo] = useState<episode | null>(null)
@@ -86,7 +88,7 @@ export default function movieId({
   }
 
   if (data) {
-   const storage = localStorage.getItem(data.title)
+   const storage = localStorage.getItem(imdbId)
    console.log('storage: ', storage)
    if (storage !== 'null' && storage !== null) {
     const item = JSON.parse(storage)
@@ -121,7 +123,7 @@ export default function movieId({
    setSelectValue(_index)
    const item = data.episodes[_index]
    const _video = await getInfo({ item })
-   localStorage.setItem(data.title, JSON.stringify(_video))
+   localStorage.setItem(imdbId, JSON.stringify(_video))
    setVideo(_video)
    _index = _index + 1
    if (_index < episodesLength - 1) {
@@ -163,7 +165,7 @@ export default function movieId({
      >
       {data.episodes.map((_item, key) => (
        <option key={key} value={_item.id}>
-        {_item.name || _item.id}
+        {_item.name || _item.id + 1}
        </option>
       ))}
      </select>
