@@ -9,6 +9,7 @@
   "rules": {
     "no-undef": 0,
     "react-hooks/exhaustive-deps": 0,
-    "react-hooks/rules-of-hooks": 0
+    "react-hooks/rules-of-hooks": 0,
+    "max-line-length": [true, { "limit": 120 }]
   }
 }

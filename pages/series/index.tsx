@@ -28,19 +28,7 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
  const { route } = useRouter()
 
  useEffect(() => {
-  const arrayStart = [
-   'the mentalist',
-   'ataque dos titas',
-   'os simpsons',
-   'southpark',
-   'breaking bad',
-   'chernobyl',
-   'this is us',
-   'stranger things',
-   'fullmetal alchemist',
-   'house',
-   'westworld',
-  ]
+  const arrayStart = ['the mentalist', 'ataque dos titas', 'os simpsons', 'southpark', 'breaking bad', 'chernobyl', 'this is us', 'stranger things', 'fullmetal alchemist', 'house', 'westworld']
   const dataFilter = data.filter((item) => arrayStart.includes(item.title))
   setSearch(dataFilter)
  }, [])
@@ -50,9 +38,7 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
    return
   }
   const _data = data
-  const _filter = _data.filter((item: any): any =>
-   item.title.toLowerCase().includes(text.toLowerCase())
-  )
+  const _filter = _data.filter((item: any): any => item.title.toLowerCase().includes(text.toLowerCase()))
   if (_filter?.length > numberCards) {
    setSearch(_filter.slice(0, numberCards))
   } else if (_filter.length > 0) {
@@ -71,18 +57,7 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
    <main className={styles.main}>
     <Header filterData={filterData} route={route} />
     {data && search && (
-     <main className={styles.main}>
-      {
-       <div className={styles.cards}>
-        {search?.map(
-         (item: any) =>
-          item && (
-           <Card item={item} key={item.url} route={route} url={'/api/imdbTv'} />
-          )
-        )}
-       </div>
-      }
-     </main>
+     <main className={styles.main}>{<div className={styles.cards}>{search?.map((item: any) => item && <Card item={item} key={item.url} route={route} url={'/api/imdbTv'} />)}</div>}</main>
     )}
     {!data && <Loading />}
    </main>

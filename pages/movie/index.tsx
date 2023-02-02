@@ -45,9 +45,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
    return
   }
   const _data = data
-  const _filter = _data.filter((item: any): any =>
-   item.title.toLowerCase().includes(text.toLowerCase())
-  )
+  const _filter = _data.filter((item: any): any => item.title.toLowerCase().includes(text.toLowerCase()))
   if (_filter?.length > numberCards) {
    setSearch(_filter.slice(0, numberCards))
   } else if (_filter.length > 0) {
@@ -66,23 +64,7 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
    <main className={styles.main}>
     <Header filterData={filterData} route={route} />
     {data && search && (
-     <main className={styles.main}>
-      {
-       <div className={styles.cards}>
-        {search?.map(
-         (item: any) =>
-          item && (
-           <Card
-            item={item}
-            route={route}
-            key={item.url}
-            url={'/api/imdbMovie'}
-           />
-          )
-        )}
-       </div>
-      }
-     </main>
+     <main className={styles.main}>{<div className={styles.cards}>{search?.map((item: any) => item && <Card item={item} route={route} key={item.url} url={'/api/imdbMovie'} />)}</div>}</main>
     )}
     {!data && <Loading />}
    </main>

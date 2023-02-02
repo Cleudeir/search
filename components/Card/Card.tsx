@@ -46,20 +46,13 @@ function Card({ item, url, route }: Props): JSX.Element {
      <div className={styles.container}>
       <div>
        <div>
-        <img
-         src={String(data.backdrop_path || data.poster_path)}
-         alt={data.url}
-        />
+        <img src={String(data.backdrop_path || data.poster_path)} alt={data.url} />
        </div>
        <div className={styles.containerText}>
         <div className={styles.title}>{data.title.toUpperCase()}</div>
         <div className={styles.vote}>⭐{data.vote_average}</div>
         <div className={styles.overview}>
-         <h4>
-          {newLocal > 630
-           ? `${data?.overview?.slice(0, 630)}...`
-           : data.overview}
-         </h4>
+         <h4>{newLocal > 630 ? `${data?.overview?.slice(0, 630)}...` : data.overview}</h4>
         </div>
        </div>
       </div>

@@ -15,7 +15,7 @@ async function getTMDB(item: DataMovie): Promise<DataMovie | null> {
         ...jsonInfo.results[0],
         backdrop_path: jsonInfo.results[0].backdrop_path
           ? 'https://image.tmdb.org/t/p/original/' +
-            jsonInfo.results[0].backdrop_path
+          jsonInfo.results[0].backdrop_path
           : null,
         poster_path: jsonInfo.results[0].poster_path
           ? 'https://image.tmdb.org/t/p/w342' + jsonInfo.results[0].poster_path

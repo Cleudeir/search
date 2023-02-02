@@ -27,9 +27,7 @@ function urlTransform(url: string, id: string): DataMovie {
   url,
  }
 }
-export async function getStaticProps(context: {
- params: { id: [string, string] }
-}) {
+export async function getStaticProps(context: { params: { id: [string, string] } }) {
  const [id, url] = context.params.id
  console.log(' context.params: ', context.params)
  const item = urlTransform(url, id)
@@ -46,13 +44,7 @@ export async function getStaticProps(context: {
  }
 }
 
-export default function movieId({
- video,
- item,
-}: {
- video: DataMovie
- item: DataMovie
-}): JSX.Element {
+export default function movieId({ video, item }: { video: DataMovie; item: DataMovie }): JSX.Element {
  const [counter, setCounter] = useState(3)
 
  useEffect(() => {
@@ -92,12 +84,7 @@ export default function movieId({
      <h2>{item.title.toUpperCase()}</h2>
     </div>
    </div>
-   <iframe
-    name="Player"
-    frameBorder={0}
-    src={'https://sinalpublico.com' + video.url}
-    allowFullScreen
-   ></iframe>
+   <iframe name="Player" frameBorder={0} src={'https://sinalpublico.com' + video.url} allowFullScreen></iframe>
   </div>
  )
 }

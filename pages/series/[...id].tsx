@@ -10,26 +10,20 @@ export async function getStaticPaths() {
  }
 }
 function urlTransform(url: string, id: string): DataTv {
- const [title]: string[] = url
-  .replace('browse-', '')
-  .split('-')
-  .join(' ')
-  .split(' videos')
+ const [title]: string[] = url.replace('browse-', '').split('-').join(' ').split(' videos')
  const obj = {
   id: Number(id),
   url,
   title,
   episodes: [],
  }
- console.log('obj: ', obj)
  return obj
 }
 
-export async function getStaticProps(context: {
- params: { id: [string, string] }
-}) {
+export async function getStaticProps(context: { params: { id: [string, string] } }) {
  const [id, url] = context.params.id
  const item = urlTransform(url, id)
+ console.log('item: ', item)
  const get = await fetch(`${process.env.BACK_URL}/api/infoTvList`, {
   method: 'POST',
   body: JSON.stringify({ item }),
@@ -56,15 +50,7 @@ async function getInfo({ item }: { item: episode }): Promise<DataTv | null> {
  }
 }
 
-export default function movieId({
- data,
- item,
- imdbId,
-}: {
- data: DataTv
- imdbId: string
- item: DataTv
-}): JSX.Element {
+export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: string; item: DataTv }): JSX.Element {
  const [video, setVideo] = useState<episode | null>(null)
  const [counter, setCounter] = useState(3)
  const [selectValue, setSelectValue] = useState(0)
@@ -72,8 +58,6 @@ export default function movieId({
  useEffect(() => {
   counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
  }, [])
-
- console.log(' data, item,: ', data, item)
 
  useEffect(() => {
   if (!data) {
@@ -89,18 +73,17 @@ export default function movieId({
 
   if (data) {
    const storage = localStorage.getItem(imdbId)
-   console.log('storage: ', storage)
    if (storage !== 'null' && storage !== null) {
     const item = JSON.parse(storage)
     setVideo(item)
     setSelectValue(item.id)
    } else {
     void (async () => {
-     const item = data.episodes[0]
-     console.log('data: ', data)
-     console.log('item: ', item)
+     let item = data.episodes[0]
      const _video = await getInfo({ item })
      setVideo(_video)
+     item = data.episodes[1]
+     await getInfo({ item })
     })()
    }
   }
@@ -187,13 +170,7 @@ export default function movieId({
      Next
     </button>
    </div>
-   {video && (
-    <iframe
-     frameBorder={0}
-     src={'https://sinalpublico.com' + video.url}
-     allowFullScreen
-    ></iframe>
-   )}
+   {video && <iframe frameBorder={0} src={'https://sinalpublico.com' + video.url} allowFullScreen></iframe>}
   </div>
  )
 }
