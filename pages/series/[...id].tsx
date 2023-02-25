@@ -22,16 +22,18 @@ function urlTransform(url: string, id: string): DataTv {
 
 export async function getStaticProps(context: { params: { id: [string, string] } }) {
  const [id, url] = context.params.id
- const item = urlTransform(url, id)
- console.log('item: ', item)
+ let item = urlTransform(url, id)
+
  const get = await fetch(`${process.env.BACK_URL}/api/infoTvList`, {
   method: 'POST',
   body: JSON.stringify({ item }),
   headers: { 'Content-type': 'application/json; charset=UTF-8' },
  })
- const data = await get.json()
+ const { episodes } = await get.json()
+ item = { ...item, episodes }
+ console.log('item: ', item)
  return {
-  props: { data, item, imdbId: Number(id) },
+  props: { episodes, item },
   revalidate: 30 * 24 * 60 * 60,
  }
 }
@@ -50,7 +52,7 @@ async function getInfo({ item }: { item: episode }): Promise<DataTv | null> {
  }
 }
 
-export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: string; item: DataTv }): JSX.Element {
+export default function movieId({ item }: { item: DataTv }): JSX.Element {
  const [video, setVideo] = useState<episode | null>(null)
  const [counter, setCounter] = useState(3)
  const [selectValue, setSelectValue] = useState(0)
@@ -60,7 +62,7 @@ export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: 
  }, [])
 
  useEffect(() => {
-  if (!data) {
+  if (!item.episodes) {
    fetch(`/api/delete`, {
     method: 'DELETE',
     body: JSON.stringify({ item, type: 'Tv' }),
@@ -71,32 +73,33 @@ export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: 
    }, 3000)
   }
 
-  if (data) {
-   const storage = localStorage.getItem(imdbId)
+  if (item.episodes) {
+   const storage = localStorage.getItem(String(item.id))
    if (storage !== 'null' && storage !== null) {
     const item = JSON.parse(storage)
     setVideo(item)
     setSelectValue(item.id)
    } else {
     void (async () => {
-     let item = data.episodes[0]
-     const _video = await getInfo({ item })
+     let _item = item.episodes[0]
+     const _video = await getInfo({ item: _item })
      setVideo(_video)
-     item = data.episodes[1]
-     await getInfo({ item })
+     _item = item.episodes[1]
+     await getInfo({ item: _item })
     })()
    }
   }
- }, [data])
+ }, [item])
+
  async function changeIndex(e: number, id?: number): Promise<void> {
-  if (data && video) {
+  if (item.episodes && video) {
    setVideo(null)
    let _id = video.id
    if (id !== undefined) {
     _id = id
    }
    let _index = _id + e
-   const episodesLength = data.episodes.length
+   const episodesLength = item.episodes.length
    if (_index >= episodesLength - 1) {
     _index = episodesLength - 1
    }
@@ -104,19 +107,19 @@ export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: 
     _index = 0
    }
    setSelectValue(_index)
-   const item = data.episodes[_index]
-   const _video = await getInfo({ item })
-   localStorage.setItem(imdbId, JSON.stringify(_video))
+   const _item = item.episodes[_index]
+   const _video = await getInfo({ item: _item })
+   localStorage.setItem(String(item.id), JSON.stringify(_video))
    setVideo(_video)
    _index = _index + 1
    if (_index < episodesLength - 1) {
-    const nextItem = data.episodes[_index]
+    const nextItem = item.episodes[_index]
     await getInfo({ item: nextItem })
    }
   }
  }
 
- if (!data) {
+ if (!item.episodes) {
   return (
    <div className={styles.iframe}>
     <div className={styles.error}>
@@ -146,7 +149,7 @@ export default function movieId({ data, item, imdbId }: { data: DataTv; imdbId: 
        changeIndex(0, Number(e.target.value))
       }}
      >
-      {data.episodes.map((_item, key) => (
+      {item.episodes.map((_item, key) => (
        <option key={key} value={_item.id}>
         {_item.name || _item.id + 1}
        </option>

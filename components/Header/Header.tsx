@@ -36,6 +36,7 @@ export default function Header({ filterData, route }: Props): JSX.Element {
      value={String(text)}
      onChange={(e) => {
       setText(String(e.target.value))
+      filterData(String(e.target.value))
      }}
      placeholder={`Search...`}
      onKeyDown={(e) => {
@@ -45,14 +46,6 @@ export default function Header({ filterData, route }: Props): JSX.Element {
       }
      }}
     />
-    <button
-     onClick={() => {
-      filterData(text)
-      setText('')
-     }}
-    >
-     search
-    </button>
    </div>
   </main>
  )
