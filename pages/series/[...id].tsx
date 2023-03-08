@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from '../../styles/Pages.module.css'
 import { DataTv, episode } from '../../components/interfaces'
 import Link from 'next/link'
@@ -173,7 +173,7 @@ export default function movieId({ item }: { item: DataTv }): JSX.Element {
      Next
     </button>
    </div>
-   {video && <iframe frameBorder={0} src={'https://sinalpublico.com' + video.url} allowFullScreen></iframe>}
+   {video && <iframe frameBorder={0} src={'https://sinalpublico.com' + video.url}  allowFullScreen={false}></iframe>}
   </div>
  )
 }

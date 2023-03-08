@@ -21,6 +21,9 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
  const [search, setSearch] = useState<any | null>(null)
  const [numberCards] = useState(10)
  const { route } = useRouter()
+
+ 
+
  useEffect(() => {
   void (async () => {
    const resp = await fetch(`/api/imdbTrending`, {

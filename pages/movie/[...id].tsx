@@ -84,7 +84,7 @@ export default function movieId({ video, item }: { video: DataMovie; item: DataM
      <h2>{item.title.toUpperCase()}</h2>
     </div>
    </div>
-   <iframe name="Player" frameBorder={0} src={'https://sinalpublico.com' + video.url} allowFullScreen></iframe>
+   <iframe name="Player" allowFullScreen={false} frameBorder={0} src={'https://sinalpublico.com' + video.url}></iframe>
   </div>
  )
 }
