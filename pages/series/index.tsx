@@ -28,9 +28,19 @@ export default function Home({ data }: { data: DataTv[] }): JSX.Element {
  const { route } = useRouter()
 
  useEffect(() => {
-  const arrayStart = ['the mentalist', 'ataque dos titas', 'os simpsons', 'southpark', 'breaking bad', 'chernobyl', 'this is us', 'stranger things', 'fullmetal alchemist', 'house', 'westworld']
-  const dataFilter = data.filter((item) => arrayStart.includes(item.title))
-  setSearch(dataFilter)
+    void (async () => {
+        const resp = await fetch(`/api/imdbTrending`, {
+         method: 'DELETE',
+         body: JSON.stringify({ type: "tv" , time: "week"}),
+         headers: { 'Content-type': 'application/json; charset=UTF-8' },
+       })
+        const trending = await resp.json()
+        const trendingTitle = trending.map((item: any)=>item.name.replace(/[^\w\s]/gi, '').toLowerCase())
+        const dataFilter = data.filter((item) =>
+         trendingTitle.includes(item.title.toLowerCase())
+         )
+        setSearch(dataFilter)
+       })()
  }, [])
 
  function filterData(text: string): void {

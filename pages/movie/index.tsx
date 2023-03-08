@@ -21,23 +21,20 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
  const [search, setSearch] = useState<any | null>(null)
  const [numberCards] = useState(10)
  const { route } = useRouter()
- console.log(route)
  useEffect(() => {
-  const arrayStart = [
-   '1918 A BATALHA DE KRUTY',
-   'loucos por justica',
-   'tudo em todo lugar ao mesmo tempo',
-   'nada de novo no front',
-   'top gun maverick',
-   'o projeto adam',
-   'logan',
-   'a procura da felicidade',
-   'minions 2 a origem de gru',
-   'wall e',
-  ]
-  const dataFilter = data.filter((item) => arrayStart.includes(item.title))
-  console.log('arrayStart: ', arrayStart)
-  setSearch(dataFilter)
+  void (async () => {
+   const resp = await fetch(`/api/imdbTrending`, {
+    method: 'DELETE',
+    body: JSON.stringify({ type: "movie" , time: "week"}),
+    headers: { 'Content-type': 'application/json; charset=UTF-8' },
+  })
+   const trending = await resp.json()
+   const trendingTitle = trending.map((item: any)=>item.title.replace(/[^\w\s]/gi, '').toLowerCase())
+   const dataFilter = data.filter((item) =>
+    trendingTitle.includes(item.title.toLowerCase())
+    )
+   setSearch(dataFilter)
+  })()
  }, [])
 
  function filterData(text: string): void {

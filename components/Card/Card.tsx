@@ -18,7 +18,6 @@ async function getInfo({ item, url }: Props): Promise<DataTv | null> {
    headers: { 'Content-type': 'application/json; charset=UTF-8' },
   })
   const json = await data.json()
-  console.log('json: ', json)
   return json
  } catch (error) {
   console.warn(error)
