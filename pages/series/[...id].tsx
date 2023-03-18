@@ -34,7 +34,7 @@ export async function getStaticProps(context: { params: { id: [string, string] }
  console.log('item: ', item)
  return {
   props: { episodes, item },
-  revalidate: 30 * 24 * 60 * 60,
+  revalidate: 1 * 24 * 60 * 60,
  }
 }
 async function getInfo({ item }: { item: episode }): Promise<DataTv | null> {
