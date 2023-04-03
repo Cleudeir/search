@@ -24,7 +24,7 @@ export async function getStaticProps() {
 
 export default function Home({ data }: { data: DataTv[] }): JSX.Element {
  const [search, setSearch] = useState<any>(null)
- const [numberCards] = useState(10)
+ const [numberCards] = useState(30)
  const { route } = useRouter()
 
  useEffect(() => {

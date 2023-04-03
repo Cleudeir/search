@@ -19,7 +19,7 @@ export async function getStaticProps() {
 
 export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
  const [search, setSearch] = useState<any | null>(null)
- const [numberCards] = useState(10)
+ const [numberCards] = useState(30)
  const { route } = useRouter()
 
  
