@@ -22,20 +22,16 @@ export default function Home({ data }: { data: DataMovie[] }): JSX.Element {
  const [numberCards] = useState(30)
  const { route } = useRouter()
 
- 
-
  useEffect(() => {
   void (async () => {
    const resp = await fetch(`/api/imdbTrending`, {
     method: 'DELETE',
-    body: JSON.stringify({ type: "movie" , time: "week"}),
+    body: JSON.stringify({ type: 'movie', time: 'day' }),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
-  })
+   })
    const trending = await resp.json()
-   const trendingTitle = trending.map((item: any)=>item.title.replace(/[^\w\s]/gi, '').toLowerCase())
-   const dataFilter = data.filter((item) =>
-    trendingTitle.includes(item.title.toLowerCase())
-    )
+   const trendingTitle = trending.map((item: any) => item.title.replace(/[^\w\s]/gi, '').toLowerCase())
+   const dataFilter = data.filter((item) => trendingTitle.includes(item.title.toLowerCase()))
    setSearch(dataFilter)
   })()
  }, [])

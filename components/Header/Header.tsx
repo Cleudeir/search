@@ -11,25 +11,19 @@ export default function Header({ filterData, route }: Props): JSX.Element {
  const [text, setText] = useState<string>('')
  const inputRef = useRef(null)
 
- const ButtonChangeType = () => {
-  if (route === '/movie') {
-   return (
-    <Link href={'/series'}>
-     <button onClick={() => {}}>Series</button>
-    </Link>
-   )
-  } else {
-   return (
-    <Link href={'/movie'}>
-     <button onClick={() => {}}>Movie</button>
-    </Link>
-   )
-  }
- }
  return (
   <main className={styles.main}>
    <div>
-    <ButtonChangeType />
+    <Link href={'/series'}>
+     <button style={route == '/series' ? { backgroundColor: 'green' } : {}} onClick={() => {}}>
+      Series
+     </button>
+    </Link>
+    <Link href={'/movie'}>
+     <button style={route == '/movie' ? { backgroundColor: 'green' } : {}} onClick={() => {}}>
+      Movie
+     </button>
+    </Link>
     <input
      ref={inputRef}
      type="text"
