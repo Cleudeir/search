@@ -1,8 +1,8 @@
 
-                # Header.tsx                
-                ## project structure
-                ```                    
-                search/
+# searchsearch                
+## project structure
+```                    
+search/
     package-lock.json
     README.md
     tsconfig.json
@@ -38,8 +38,8 @@
         Header/
             Header.module.css
             Header.tsx                
-                ```
-                ## Resumo do Projeto `search_next`
+```
+## Resumo do Projeto `search_next`
 
 **Objetivo:**  Criar um aplicativo Next.js que exibe filmes e séries de TV, buscando dados de uma API externa (TMDB). O aplicativo permite a busca por títulos e prioriza a exibição de conteúdo em tendência.
 
